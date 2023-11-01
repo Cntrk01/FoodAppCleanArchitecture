@@ -4,26 +4,21 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.cantrk.foodappcleanarchitecture.BaseFragment
-import com.cantrk.foodappcleanarchitecture.adapter.RandomMealAdapter
+import com.cantrk.foodappcleanarchitecture.adapter.CategoryAdapter
 import com.cantrk.foodappcleanarchitecture.databinding.FragmentHomeBinding
 import com.cantrk.foodappcleanarchitecture.dataclass.Category
 import com.cantrk.foodappcleanarchitecture.viewmodel.GetCategoriesViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     private val viewModel : GetCategoriesViewModel by activityViewModels()
-    private lateinit var mealAdapter: RandomMealAdapter
+    private lateinit var mealAdapter: CategoryAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,8 +29,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
-    private fun setRandomMealAdapter(categoriesState: List<Category>){
-        mealAdapter= RandomMealAdapter()
+    private fun setCategoryAdapter(categoriesState: List<Category>){
+        mealAdapter= CategoryAdapter()
         binding.apply {
             categoryMealRecyclerView.adapter=mealAdapter
             categoryMealRecyclerView.set3DItem(true)
@@ -45,12 +40,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
          mealAdapter.setMealList(categoriesState)
     }
 
+    private fun setCategoryAdapter(){
+
+    }
+
     private fun setItemList(){
         viewModel.categoryState.category?.let {   }
         with(viewModel){
         viewModelScope.launch {
             combinedFlow.collectLatest {(categoryState, randomMealState,popularMealState) ->
-                categoryState.category?.let { setRandomMealAdapter(it) }
+                categoryState.category?.let { setCategoryAdapter(it) }
+                randomMealState.category?.let {  }
                 Log.e("randomState",randomMealState.category.toString())
                 Log.e("randomState2",popularMealState.category.toString())
                 }
