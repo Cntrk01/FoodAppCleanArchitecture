@@ -10,17 +10,17 @@ import retrofit2.http.Query
 
 interface FoodApi {
     @GET("categories.php")
-    suspend fun getCategories(): Flow<Resource<CategoryResponse>>
+    suspend fun getCategories(): CategoryResponse
 
     @GET("categories.php")
-    suspend fun getMealsByCategory(@Query("i") category:String): Flow<Resource<MealsResponse>>
+    suspend fun getMealsByCategory(@Query("i") category:String): MealsResponse
 
     @GET ("random.php")
-    suspend fun getRandomMeal():Flow<Resource<RandomResponse>>
+    suspend fun getRandomMeal():RandomResponse
 
     @GET("lookup.php?")
-    suspend fun getMealById(@Query("i") id:String):Flow<Resource<RandomResponse>>
+    suspend fun getMealById(@Query("i") id:String):RandomResponse
 
     @GET("search.php?")
-    suspend fun getMealByName(@Query("s") s:String):Flow<Resource<RandomResponse>>
+    suspend fun getMealByName(@Query("s") s:String):RandomResponse
 }
