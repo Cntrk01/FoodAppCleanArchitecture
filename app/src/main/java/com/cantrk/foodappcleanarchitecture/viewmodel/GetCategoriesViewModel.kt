@@ -1,5 +1,6 @@
 package com.cantrk.foodappcleanarchitecture.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cantrk.foodappcleanarchitecture.Resource
@@ -17,8 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GetCategoriesViewModel @Inject constructor(private val useCase: HomePageUseCase) : ViewModel() {
-
+class GetCategoriesViewModel @Inject constructor(private val useCase: HomePageUseCase, ) : ViewModel() {
     private val _categoryResponse = MutableStateFlow(CategoriesState())
     private val categoryResponse: StateFlow<CategoriesState> get() = _categoryResponse
 
@@ -93,5 +93,9 @@ class GetCategoriesViewModel @Inject constructor(private val useCase: HomePageUs
                 }
             }
         }
+    }
+
+    fun setMealSavedItemData(data:String){
+        MealDetailViewModel.USER_KEY = data
     }
 }
