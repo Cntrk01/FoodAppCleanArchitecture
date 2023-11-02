@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.cantrk.foodappcleanarchitecture.ui.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_mealDetailFragment2"
+            app:destination="@id/mealDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.cantrk.foodappcleanarchitecture.ui.FavoriteFragment"
@@ -20,4 +24,13 @@
         android:name="com.cantrk.foodappcleanarchitecture.ui.CategoryFragment"
         android:label="fragment_category"
         tools:layout="@layout/fragment_category" />
+    <fragment
+        android:id="@+id/mealDetailFragment"
+        android:name="com.cantrk.foodappcleanarchitecture.ui.MealDetailFragment"
+        android:label="fragment_meal_detail"
+        tools:layout="@layout/fragment_meal_detail" >
+        <action
+            android:id="@+id/action_mealDetailFragment_to_homeFragment2"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

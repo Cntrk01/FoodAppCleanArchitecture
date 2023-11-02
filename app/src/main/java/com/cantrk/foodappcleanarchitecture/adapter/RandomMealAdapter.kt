@@ -13,6 +13,9 @@ class RandomMealAdapter : RecyclerView.Adapter<RandomMealAdapter.ViewHolder>() {
 
     private var randomList = listOf<RandomMeal>()
 
+    var itemClickForDetail: ((String) -> Unit)? = null
+
+
     @SuppressLint("NotifyDataSetChanged")
     fun setMealList(list : List<RandomMeal>){
         this.randomList= list
@@ -30,7 +33,20 @@ class RandomMealAdapter : RecyclerView.Adapter<RandomMealAdapter.ViewHolder>() {
         val itemPos=randomList[position]
         holder.binding.apply {
             Glide.with(randomMealImage).load(itemPos.strMealThumb).into(randomMealImage)
+
+            randomMealCard.setOnClickListener {
+                setItemClickListener?.itemId(itemPos.idMeal)
+            }
         }
+
+    }
+    var setItemClickListener : SetItemClickListener ?=null
+    interface SetItemClickListener{
+        fun itemId(itemId:String)
+    }
+
+    fun itemClickListener(listener: SetItemClickListener){
+        this.setItemClickListener=listener
     }
 
     override fun getItemCount(): Int {

@@ -2,9 +2,11 @@ package com.cantrk.foodappcleanarchitecture.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cantrk.foodappcleanarchitecture.BaseFragment
 import com.cantrk.foodappcleanarchitecture.adapter.CategoryAdapter
@@ -49,6 +51,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             randomMeal.layoutManager=LinearLayoutManager(requireContext())
         }
         randomMealAdapter.setMealList(list)
+
+        randomMealAdapter.itemClickListener(object : RandomMealAdapter.SetItemClickListener{
+            override fun itemId(itemId: String) {
+                if (itemId.isNotEmpty()){
+                    viewModel.setMealSavedItemData(itemId)
+                    val action=HomeFragmentDirections.actionHomeFragmentToMealDetailFragment2()
+                    findNavController().navigate(action)
+                }
+            }
+
+        })
     }
 
     private fun setPopularMealAdapter(list : List<RandomMeal>){
@@ -67,6 +80,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 categoryState.category?.let { setCategoryAdapter(it) }
                 randomMealState.category?.let { setRandomMealAdapter(it) }
                 popularMealState.category?.let { setPopularMealAdapter(it)  }
+                if ((categoryState.category?.isNotEmpty() == true
+                            && randomMealState.category?.isNotEmpty() == true
+                            && popularMealState.category?.isNotEmpty() == true) ){
+                            binding.progressBar.isVisible=false
+                            binding.scrollView2.isVisible=true
+                    }else{
+                        binding.progressBar.isVisible=true
+                        binding.scrollView2.isVisible=false
+                    }
                 }
             }
         }
