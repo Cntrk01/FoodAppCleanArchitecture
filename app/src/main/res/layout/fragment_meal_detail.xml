@@ -11,7 +11,7 @@
         android:id="@+id/mealDataConstraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -106,16 +106,21 @@
             app:layout_constraintStart_toStartOf="@+id/categoryImage"
             app:layout_constraintTop_toBottomOf="@+id/categoryName" />
 
-        <TextView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:scrollbars="vertical"
             app:layout_constraintBottom_toTopOf="@+id/youtubeIcon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/desc" />
+            app:layout_constraintTop_toBottomOf="@+id/desc"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:id="@+id/mealDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp" />
+        </ScrollView>
 
         <ImageView
             android:id="@+id/youtubeIcon"
@@ -150,4 +155,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/mealDataConstraint" />
 
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" />
 </androidx.constraintlayout.widget.ConstraintLayout>
