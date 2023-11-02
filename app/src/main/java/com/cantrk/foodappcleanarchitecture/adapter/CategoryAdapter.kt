@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.cantrk.foodappcleanarchitecture.databinding.RandomMealItemRowBinding
+import com.cantrk.foodappcleanarchitecture.databinding.CategoryItemRowBinding
 import com.cantrk.foodappcleanarchitecture.dataclass.Category
 
 class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
@@ -18,12 +18,12 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    class ViewHolder(val binding : RandomMealItemRowBinding) : RecyclerView.ViewHolder(binding.root){
+    class ViewHolder(val binding : CategoryItemRowBinding) : RecyclerView.ViewHolder(binding.root){
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inf=RandomMealItemRowBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val inf=CategoryItemRowBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ViewHolder(inf)
     }
 

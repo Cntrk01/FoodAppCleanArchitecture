@@ -1,10 +1,8 @@
 package com.cantrk.foodappcleanarchitecture.network
 
-import com.cantrk.foodappcleanarchitecture.Resource
 import com.cantrk.foodappcleanarchitecture.dataclass.CategoryResponse
 import com.cantrk.foodappcleanarchitecture.dataclass.MealsResponse
 import com.cantrk.foodappcleanarchitecture.dataclass.RandomResponse
-import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.Query
 

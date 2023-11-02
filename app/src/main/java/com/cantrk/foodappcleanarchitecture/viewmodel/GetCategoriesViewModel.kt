@@ -1,6 +1,5 @@
 package com.cantrk.foodappcleanarchitecture.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cantrk.foodappcleanarchitecture.Resource
@@ -33,12 +32,9 @@ class GetCategoriesViewModel @Inject constructor(private val useCase: HomePageUs
         .combine(randomMeal) { categoryState, randomMealState ->
             Pair(categoryState, randomMealState)
         }
-        .combine(populerItemResponse) { pair, additionalState ->
-            Triple(pair.first, pair.second, additionalState)
+        .combine(populerItemResponse) { pair, popularItem ->
+            Triple(pair.first, pair.second, popularItem)
         }
-
-
-    var categoryState = CategoriesState()
 
     init {
         getCategories()
@@ -73,7 +69,6 @@ class GetCategoriesViewModel @Inject constructor(private val useCase: HomePageUs
                 }
                 is Resource.Loading->{
                     RandomMealState(isLoading = true)
-
                 }
                 is Resource.Error->{
                     RandomMealState(error = resource.message ?: "Error")

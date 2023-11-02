@@ -1,25 +1,26 @@
 package com.cantrk.foodappcleanarchitecture.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.cantrk.foodappcleanarchitecture.databinding.RandomMealItemBinding
 import com.cantrk.foodappcleanarchitecture.dataclass.RandomMeal
 
-class RandomMealAdapter : RecyclerView.Adapter<RandomMealAdapter.ViewHolder>() {
+class PopularMealAdapter : RecyclerView.Adapter<PopularMealAdapter.ViewHolder>() {
 
-    private var randomList = listOf<RandomMeal>()
+    private var popularMealList = listOf<RandomMeal>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setMealList(list : List<RandomMeal>){
-        this.randomList= list
+    fun setPopularMealList(list : List<RandomMeal>){
+        this.popularMealList= list
         notifyDataSetChanged()
     }
 
-    class ViewHolder(val binding : RandomMealItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: RandomMealItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inf=RandomMealItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -27,13 +28,17 @@ class RandomMealAdapter : RecyclerView.Adapter<RandomMealAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val itemPos=randomList[position]
+        val itemPosition=popularMealList[position]
+
         holder.binding.apply {
-            Glide.with(randomMealImage).load(itemPos.strMealThumb).into(randomMealImage)
+            Glide.with(randomMealImage)
+                .load(itemPosition.strMealThumb)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(randomMealImage)
         }
     }
 
     override fun getItemCount(): Int {
-        return randomList.size
+        return popularMealList.size
     }
 }

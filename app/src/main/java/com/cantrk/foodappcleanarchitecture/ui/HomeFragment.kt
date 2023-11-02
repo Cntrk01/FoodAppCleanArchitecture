@@ -1,14 +1,18 @@
 package com.cantrk.foodappcleanarchitecture.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.cantrk.foodappcleanarchitecture.BaseFragment
 import com.cantrk.foodappcleanarchitecture.adapter.CategoryAdapter
+import com.cantrk.foodappcleanarchitecture.adapter.PopularMealAdapter
+import com.cantrk.foodappcleanarchitecture.adapter.RandomMealAdapter
 import com.cantrk.foodappcleanarchitecture.databinding.FragmentHomeBinding
 import com.cantrk.foodappcleanarchitecture.dataclass.Category
+import com.cantrk.foodappcleanarchitecture.dataclass.RandomMeal
 import com.cantrk.foodappcleanarchitecture.viewmodel.GetCategoriesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -17,16 +21,14 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
-    private val viewModel : GetCategoriesViewModel by activityViewModels()
+    private val viewModel : GetCategoriesViewModel by viewModels()
     private lateinit var mealAdapter: CategoryAdapter
+    private lateinit var randomMealAdapter: RandomMealAdapter
+    private lateinit var popularMealAdapter: PopularMealAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //1.kısım random meal
-        //2.kısım most request meal o da  @GET("categories.php") ye beef parametresini vermiş ve ekranda göstermiş
-        //3.kısım zaten kategoriler
         setItemList()
-
     }
 
     private fun setCategoryAdapter(categoriesState: List<Category>){
@@ -40,19 +42,31 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
          mealAdapter.setMealList(categoriesState)
     }
 
-    private fun setCategoryAdapter(){
+    private fun setRandomMealAdapter(list : List<RandomMeal>){
+        randomMealAdapter= RandomMealAdapter()
+        binding.apply {
+            randomMeal.adapter=randomMealAdapter
+            randomMeal.layoutManager=LinearLayoutManager(requireContext())
+        }
+        randomMealAdapter.setMealList(list)
+    }
 
+    private fun setPopularMealAdapter(list : List<RandomMeal>){
+        popularMealAdapter=PopularMealAdapter()
+        binding.apply {
+            getPopularMeals.adapter=popularMealAdapter
+            getPopularMeals.layoutManager=LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
+        popularMealAdapter.setPopularMealList(list)
     }
 
     private fun setItemList(){
-        viewModel.categoryState.category?.let {   }
         with(viewModel){
         viewModelScope.launch {
             combinedFlow.collectLatest {(categoryState, randomMealState,popularMealState) ->
                 categoryState.category?.let { setCategoryAdapter(it) }
-                randomMealState.category?.let {  }
-                Log.e("randomState",randomMealState.category.toString())
-                Log.e("randomState2",popularMealState.category.toString())
+                randomMealState.category?.let { setRandomMealAdapter(it) }
+                popularMealState.category?.let { setPopularMealAdapter(it)  }
                 }
             }
         }

@@ -22,7 +22,6 @@ class FoodRepositoryImpl @Inject constructor(private val api: FoodApi){
                 emit(Resource.Loading())
                 val getData=api.getCategories()
                 emit(Resource.Success(getData))
-
             }catch (e:Exception){
                 emit(Resource.Error(e.message.toString()))
             }catch (e:HttpException){

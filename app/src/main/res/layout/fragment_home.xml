@@ -52,12 +52,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/randomMeal" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/getCategoriesParameter"
+                android:id="@+id/getPopularMeals"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView1" />
+                app:layout_constraintTop_toBottomOf="@+id/textView1"
+                android:scrollbars="horizontal"
+                android:orientation="horizontal"/>
 
             <TextView
                 android:id="@+id/textView2"
@@ -68,7 +70,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/getCategoriesParameter" />
+                app:layout_constraintTop_toBottomOf="@+id/getPopularMeals" />
 
             <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
                 android:id="@+id/categoryMealRecyclerView"
