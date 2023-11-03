@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import java.util.Random
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,6 +29,9 @@ class GetCategoriesViewModel @Inject constructor(private val useCase: HomePageUs
     private val _populerItemResponse = MutableStateFlow(RandomMealState())
     private val populerItemResponse: StateFlow<RandomMealState> get() = _populerItemResponse
 
+    private val itemList = randomItemList()
+    private val random = Random()
+
     val combinedFlow: Flow<Triple<CategoriesState, RandomMealState, RandomMealState>> = categoryResponse
         .combine(randomMeal) { categoryState, randomMealState ->
             Pair(categoryState, randomMealState)
@@ -39,7 +43,7 @@ class GetCategoriesViewModel @Inject constructor(private val useCase: HomePageUs
     init {
         getCategories()
         getRandomMeal()
-        getMealByName("beef")
+        getMealByName(getRandomItem())
     }
     private fun getCategories() = viewModelScope.launch(Dispatchers.IO) {
         useCase.getCategories().collectLatest { resource ->
@@ -97,5 +101,17 @@ class GetCategoriesViewModel @Inject constructor(private val useCase: HomePageUs
 
     fun setMealSavedItemData(data:String){
         MealDetailViewModel.USER_KEY = data
+    }
+
+    private fun randomItemList() : ArrayList<String>{
+        val arrayList= arrayListOf<String>()
+        arrayList.add("beef")
+        arrayList.add("chicken")
+        arrayList.add("vegan")
+        return arrayList
+    }
+    private fun getRandomItem(): String {
+        val randomIndex = random.nextInt(itemList.size)
+        return itemList[randomIndex]
     }
 }
