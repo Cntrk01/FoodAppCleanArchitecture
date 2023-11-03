@@ -71,6 +71,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             getPopularMeals.layoutManager=LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
         popularMealAdapter.setPopularMealList(list)
+
+        popularMealAdapter.setOnClickPopulerMealItem = {
+            if (!it.equals("")){
+                viewModel.setMealSavedItemData(it.idMeal)
+                val action=HomeFragmentDirections.actionHomeFragmentToMealDetailFragment2()
+                findNavController().navigate(action)
+            }
+        }
     }
 
     private fun setItemList(){
@@ -82,7 +90,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 popularMealState.category?.let { setPopularMealAdapter(it)  }
                 if ((categoryState.category?.isNotEmpty() == true
                             && randomMealState.category?.isNotEmpty() == true
-                            && popularMealState.category?.isNotEmpty() == true) ){
+//                            && popularMealState.category?.isNotEmpty() == true  boş gelen categori itemleri var
+                            ) ){
                             binding.progressBar.isVisible=false
                             binding.scrollView2.isVisible=true
                     }else{

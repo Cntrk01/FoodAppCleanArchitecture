@@ -34,11 +34,11 @@ class MealDetailFragment : BaseFragment<FragmentMealDetailBinding>(FragmentMealD
             viewModel.mealDetail.collectLatest {
                 binding.apply {
                     if (it.isLoading){
-                        mealDataConstraint.isVisible=false
+                        mealDataConstraint.visibility=View.GONE
                         progressBar.isVisible=true
                     }
                     if (it.error != ""){
-                        mealDataConstraint.isVisible=false
+                        mealDataConstraint.visibility=View.GONE
                         progressBar.isVisible=false
                         errorText.isVisible=true
                         errorText.text=it.error

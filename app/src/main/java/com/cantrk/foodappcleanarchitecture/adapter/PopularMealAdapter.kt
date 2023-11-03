@@ -13,6 +13,7 @@ import com.cantrk.foodappcleanarchitecture.dataclass.RandomMeal
 class PopularMealAdapter : RecyclerView.Adapter<PopularMealAdapter.ViewHolder>() {
 
     private var popularMealList = listOf<RandomMeal>()
+    var setOnClickPopulerMealItem : ((RandomMeal) -> Unit)? = null
 
     @SuppressLint("NotifyDataSetChanged")
     fun setPopularMealList(list : List<RandomMeal>){
@@ -36,9 +37,14 @@ class PopularMealAdapter : RecyclerView.Adapter<PopularMealAdapter.ViewHolder>()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(randomMealImage)
         }
+
+        holder.itemView.setOnClickListener {
+            setOnClickPopulerMealItem?.invoke(itemPosition)
+        }
     }
 
     override fun getItemCount(): Int {
         return popularMealList.size
     }
+
 }
