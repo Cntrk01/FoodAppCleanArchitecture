@@ -1,6 +1,6 @@
 package com.cantrk.foodappcleanarchitecture.usecase
 
-import com.cantrk.foodappcleanarchitecture.Resource
+import com.cantrk.foodappcleanarchitecture.util.Resource
 import com.cantrk.foodappcleanarchitecture.dataclass.CategoryResponse
 import com.cantrk.foodappcleanarchitecture.dataclass.RandomResponse
 import com.cantrk.foodappcleanarchitecture.repositoryimpl.FoodRepositoryImpl

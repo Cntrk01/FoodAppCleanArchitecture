@@ -6,9 +6,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.cantrk.foodappcleanarchitecture.BaseFragment
+import com.cantrk.foodappcleanarchitecture.util.BaseFragment
 import com.cantrk.foodappcleanarchitecture.adapter.NavCategoryAdapter
-import com.cantrk.foodappcleanarchitecture.databinding.FragmentCategoryBinding
+import com.cantrk.foodappcleanarchitecture.databinding.FragmentNavCategoryBinding
 import com.cantrk.foodappcleanarchitecture.dataclass.Category
 import com.cantrk.foodappcleanarchitecture.viewmodel.CategoryListItemViewModel
 import com.cantrk.foodappcleanarchitecture.viewmodel.GetCategoriesViewModel
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class NavCategoryFragment : BaseFragment<FragmentCategoryBinding>(FragmentCategoryBinding::inflate){
+class NavCategoryFragment : BaseFragment<FragmentNavCategoryBinding>(FragmentNavCategoryBinding::inflate){
 
     private val viewModel : GetCategoriesViewModel by viewModels()
     private val categoryItemMealViewModel : CategoryListItemViewModel by viewModels()

@@ -1,6 +1,6 @@
 package com.cantrk.foodappcleanarchitecture.repositoryimpl
 
-import com.cantrk.foodappcleanarchitecture.Resource
+import com.cantrk.foodappcleanarchitecture.util.Resource
 import com.cantrk.foodappcleanarchitecture.dataclass.CategoryResponse
 import com.cantrk.foodappcleanarchitecture.dataclass.MealsResponse
 import com.cantrk.foodappcleanarchitecture.dataclass.RandomResponse

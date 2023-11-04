@@ -10,7 +10,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
-import com.cantrk.foodappcleanarchitecture.BaseFragment
+import com.cantrk.foodappcleanarchitecture.util.BaseFragment
 import com.cantrk.foodappcleanarchitecture.databinding.FragmentMealDetailBinding
 import com.cantrk.foodappcleanarchitecture.dataclass.RandomMeal
 import com.cantrk.foodappcleanarchitecture.viewmodel.MealDetailViewModel

@@ -3,7 +3,7 @@ package com.cantrk.foodappcleanarchitecture.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cantrk.foodappcleanarchitecture.Resource
+import com.cantrk.foodappcleanarchitecture.util.Resource
 import com.cantrk.foodappcleanarchitecture.states.CategoriesState
 import com.cantrk.foodappcleanarchitecture.states.RandomMealState
 import com.cantrk.foodappcleanarchitecture.usecase.HomePageUseCase
@@ -100,7 +100,7 @@ class GetCategoriesViewModel @Inject constructor(private val useCase: HomePageUs
     }
 
     fun setMealSavedItemData(data:String){
-        MealDetailViewModel.USER_KEY = data
+        MealDetailViewModel.MEAL_ID = data
     }
 
     fun setCategoryListItem(data:String){

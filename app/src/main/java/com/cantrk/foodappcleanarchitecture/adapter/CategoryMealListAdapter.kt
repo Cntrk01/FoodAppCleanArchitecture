@@ -12,6 +12,8 @@ class CategoryMealListAdapter : RecyclerView.Adapter<CategoryMealListAdapter.Vie
 
     private var randomList = listOf<Meal>()
 
+    var clickMealItem : ((String)->Unit) ?=null
+
     @SuppressLint("NotifyDataSetChanged")
     fun setMealList(list : List<Meal>){
         this.randomList= list
@@ -33,6 +35,10 @@ class CategoryMealListAdapter : RecyclerView.Adapter<CategoryMealListAdapter.Vie
         holder.binding.apply {
             Glide.with(categoryImage).load(item.strMealThumb).into(categoryImage)
             categoryName.text=item.strMeal
+        }
+
+        holder.itemView.setOnClickListener {
+            clickMealItem?.invoke(item.idMeal)
         }
     }
 

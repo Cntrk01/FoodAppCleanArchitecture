@@ -1,10 +1,8 @@
 package com.cantrk.foodappcleanarchitecture.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cantrk.foodappcleanarchitecture.Resource
-import com.cantrk.foodappcleanarchitecture.states.CategoriesState
+import com.cantrk.foodappcleanarchitecture.util.Resource
 import com.cantrk.foodappcleanarchitecture.states.RandomMealState
 import com.cantrk.foodappcleanarchitecture.usecase.GetMealByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +20,7 @@ class MealDetailViewModel @Inject constructor(private val mealByIdUseCase: GetMe
     val mealDetail: StateFlow<RandomMealState> get() = _mealDetail
 
     companion object {
-         var USER_KEY = "userId"
+         var MEAL_ID = ""
     }
 
     init {
@@ -30,7 +28,7 @@ class MealDetailViewModel @Inject constructor(private val mealByIdUseCase: GetMe
     }
 
     private fun getMealId() : String {
-        return USER_KEY
+        return MEAL_ID
     }
 
     private fun getMealDetail(mealId:String) =viewModelScope.launch {
