@@ -1,15 +1,12 @@
 package com.cantrk.foodappcleanarchitecture.repositoryimpl
 
-import android.util.Log
 import com.cantrk.foodappcleanarchitecture.Resource
 import com.cantrk.foodappcleanarchitecture.dataclass.CategoryResponse
 import com.cantrk.foodappcleanarchitecture.dataclass.MealsResponse
 import com.cantrk.foodappcleanarchitecture.dataclass.RandomResponse
 import com.cantrk.foodappcleanarchitecture.network.FoodApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.onEach
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -84,6 +81,22 @@ class FoodRepositoryImpl @Inject constructor(private val api: FoodApi){
             try {
                 emit(Resource.Loading())
                 val getMealByName=api.getMealByName(s)
+                emit(Resource.Success(getMealByName))
+            }catch (e:Exception){
+                emit(Resource.Error(e.message.toString()))
+            }catch (e:HttpException){
+                emit(Resource.Error(message = e.localizedMessage ?: "Error"))
+            }catch (e:IOException){
+                emit(Resource.Error("No Internet Connection"))
+            }
+        }
+    }
+
+    suspend fun getMealsByCategoryGetItem(s:String) : Flow<Resource<MealsResponse>> {
+        return flow {
+            try {
+                emit(Resource.Loading())
+                val getMealByName=api.getMealsByCategoryGetItem(s)
                 emit(Resource.Success(getMealByName))
             }catch (e:Exception){
                 emit(Resource.Error(e.message.toString()))

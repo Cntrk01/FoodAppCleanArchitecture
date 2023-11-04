@@ -8,10 +8,10 @@ import com.bumptech.glide.Glide
 import com.cantrk.foodappcleanarchitecture.databinding.CategoryItemRowBinding
 import com.cantrk.foodappcleanarchitecture.dataclass.Category
 
-class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+class HomeCategoryAdapter : RecyclerView.Adapter<HomeCategoryAdapter.ViewHolder>() {
 
     private var randomList = listOf<Category>()
-
+    var clickCategoryItem : ((String)->Unit) ?= null
     @SuppressLint("NotifyDataSetChanged")
     fun setMealList(list : List<Category>){
         this.randomList= list
@@ -33,6 +33,10 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
         holder.binding.apply {
             Glide.with(categoryImage).load(item.strCategoryThumb).into(categoryImage)
             categoryName.text=item.strCategory
+        }
+
+        holder.itemView.setOnClickListener {
+            clickCategoryItem?.invoke(item.strCategory)
         }
     }
 

@@ -3,13 +3,12 @@ package com.cantrk.foodappcleanarchitecture.ui
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cantrk.foodappcleanarchitecture.BaseFragment
-import com.cantrk.foodappcleanarchitecture.adapter.CategoryAdapter
+import com.cantrk.foodappcleanarchitecture.adapter.HomeCategoryAdapter
 import com.cantrk.foodappcleanarchitecture.adapter.PopularMealAdapter
 import com.cantrk.foodappcleanarchitecture.adapter.RandomMealAdapter
 import com.cantrk.foodappcleanarchitecture.databinding.FragmentHomeBinding
@@ -21,10 +20,10 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
+class NavHomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     private val viewModel : GetCategoriesViewModel by viewModels()
-    private lateinit var mealAdapter: CategoryAdapter
+    private lateinit var mealAdapter: HomeCategoryAdapter
     private lateinit var randomMealAdapter: RandomMealAdapter
     private lateinit var popularMealAdapter: PopularMealAdapter
 
@@ -34,7 +33,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun setCategoryAdapter(categoriesState: List<Category>){
-        mealAdapter= CategoryAdapter()
+        mealAdapter= HomeCategoryAdapter()
         binding.apply {
             categoryMealRecyclerView.adapter=mealAdapter
             categoryMealRecyclerView.set3DItem(true)
@@ -42,6 +41,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             categoryMealRecyclerView.setInfinite(true)
         }
          mealAdapter.setMealList(categoriesState)
+
+        mealAdapter.clickCategoryItem = {
+            viewModel.setCategoryListItem(it)
+            val action=NavHomeFragmentDirections.actionNavHomeFragmentToCategoryListItemFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun setRandomMealAdapter(list : List<RandomMeal>){
@@ -56,7 +61,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             override fun itemId(itemId: String) {
                 if (itemId.isNotEmpty()){
                     viewModel.setMealSavedItemData(itemId)
-                    val action=HomeFragmentDirections.actionHomeFragmentToMealDetailFragment2()
+                    val action=NavHomeFragmentDirections.actionHomeFragmentToMealDetailFragment2()
                     findNavController().navigate(action)
                 }
             }
@@ -75,13 +80,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         popularMealAdapter.setOnClickPopulerMealItem = {
             if (!it.equals("")){
                 viewModel.setMealSavedItemData(it.idMeal)
-                val action=HomeFragmentDirections.actionHomeFragmentToMealDetailFragment2()
+                val action=NavHomeFragmentDirections.actionHomeFragmentToMealDetailFragment2()
                 findNavController().navigate(action)
             }
         }
     }
 
     private fun setItemList(){
+        //lifecyclescopelaunch işlemi içerisinde bulunan suspend durumları sırasıyla başlatır. !! ve ilk collect latest
+        // çalıştıktan sonra diğerleri çalışmıyor.
+
         with(viewModel){
         viewModelScope.launch {
             combinedFlow.collectLatest {(categoryState, randomMealState,popularMealState) ->
@@ -90,7 +98,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 popularMealState.category?.let { setPopularMealAdapter(it)  }
                 if ((categoryState.category?.isNotEmpty() == true
                             && randomMealState.category?.isNotEmpty() == true
-//                            && popularMealState.category?.isNotEmpty() == true  boş gelen categori itemleri var
                             ) ){
                             binding.progressBar.isVisible=false
                             binding.scrollView2.isVisible=true
@@ -101,6 +108,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
             }
         }
-        //lifecyclescopelaunch işlemi içerisinde bulunan suspend durumları sırasıyla başlatır. !! ve ilk collect latest çalıştıktan sonra diğerleri çalışmıyor.
     }
 }

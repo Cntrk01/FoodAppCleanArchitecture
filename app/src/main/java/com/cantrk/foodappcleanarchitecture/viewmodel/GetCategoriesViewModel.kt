@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GetCategoriesViewModel @Inject constructor(private val useCase: HomePageUseCase, ) : ViewModel() {
     private val _categoryResponse = MutableStateFlow(CategoriesState())
-    private val categoryResponse: StateFlow<CategoriesState> get() = _categoryResponse
+    val categoryResponse: StateFlow<CategoriesState> get() = _categoryResponse
 
     private val _randomMealResponse = MutableStateFlow(RandomMealState())
     private val randomMeal: StateFlow<RandomMealState> get() = _randomMealResponse
@@ -101,6 +101,10 @@ class GetCategoriesViewModel @Inject constructor(private val useCase: HomePageUs
 
     fun setMealSavedItemData(data:String){
         MealDetailViewModel.USER_KEY = data
+    }
+
+    fun setCategoryListItem(data:String){
+        CategoryListItemViewModel.categoryName = data
     }
 
     private fun randomItemList() : ArrayList<String>{

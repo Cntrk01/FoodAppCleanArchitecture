@@ -21,4 +21,7 @@ interface FoodApi {
 
     @GET("search.php?")
     suspend fun getMealByName(@Query("s") s:String):RandomResponse
+    //tıklanan kategorilerden veri getirme.normalde i parametresi ile alıyordum fakat boş gelenler vardı dökümanda c parametresini görüp denedim bütün kategoriler dolu geliyor.
+    @GET("filter.php?")
+    suspend fun getMealsByCategoryGetItem(@Query("c") category:String):MealsResponse
 }
