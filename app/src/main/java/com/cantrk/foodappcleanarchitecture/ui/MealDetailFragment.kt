@@ -61,6 +61,7 @@ class MealDetailFragment : BaseFragment<FragmentMealDetailBinding>(FragmentMealD
     @SuppressLint("SetTextI18n")
     private fun setDataForXml(its:RandomMeal){
        binding.apply {
+           mealDetailName.text=its.strMeal
            Glide.with(requireContext()).load(its.strMealThumb).into(mealImage)
            categoryName.text="Category : ${its.strCategory}"
            locationName.text="Location : ${its.strArea}"
