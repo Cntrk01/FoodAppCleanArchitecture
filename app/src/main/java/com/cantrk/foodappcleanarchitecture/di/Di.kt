@@ -1,10 +1,17 @@
 package com.cantrk.foodappcleanarchitecture.di
 
+import android.content.Context
+import android.provider.DocumentsContract.Root
+import androidx.room.Room
+import com.cantrk.foodappcleanarchitecture.db.FoodDao
+import com.cantrk.foodappcleanarchitecture.db.FoodDatabase
 import com.cantrk.foodappcleanarchitecture.network.FoodApi
+import com.cantrk.foodappcleanarchitecture.repositoryimpl.FoodDatabaseImpl
 import com.cantrk.foodappcleanarchitecture.repositoryimpl.FoodRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -53,4 +60,21 @@ object Di {
         return FoodRepositoryImpl(api = api)
     }
 
+    @Provides
+    @Singleton
+    fun provideFoodDatabaseImpl(dao:FoodDao) : FoodDatabaseImpl{
+        return FoodDatabaseImpl(foodDatabase = dao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFoodDatabase(@ApplicationContext context: Context) : FoodDatabase{
+        return Room.databaseBuilder(context,FoodDatabase::class.java,"saved_food")
+            .fallbackToDestructiveMigration().build()
+    }
+    @Provides
+    @Singleton
+    fun provideDatabase(foodDatabase:FoodDatabase) : FoodDao{
+        return foodDatabase.foodDao()
+    }
 }
