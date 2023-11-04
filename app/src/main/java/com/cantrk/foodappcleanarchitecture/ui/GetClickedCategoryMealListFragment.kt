@@ -1,14 +1,13 @@
 package com.cantrk.foodappcleanarchitecture.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.cantrk.foodappcleanarchitecture.BaseFragment
-import com.cantrk.foodappcleanarchitecture.R
+import com.cantrk.foodappcleanarchitecture.util.BaseFragment
 import com.cantrk.foodappcleanarchitecture.adapter.CategoryMealListAdapter
 import com.cantrk.foodappcleanarchitecture.databinding.FragmentCategoryListBinding
 import com.cantrk.foodappcleanarchitecture.states.MealState
@@ -43,9 +42,13 @@ class GetClickedCategoryMealListFragment : BaseFragment<FragmentCategoryListBind
                 }
             }
         }
+        navCategoryAdapter.clickMealItem = {
+            viewModel.setMealId(it)
+            val action=GetClickedCategoryMealListFragmentDirections.actionCategoryListItemFragmentToMealDetailFragment()
+            findNavController().navigate(action)
+        }
     }
 
-    @SuppressLint("ResourceAsColor")
     private fun fetchDataForUi(it:MealState){
         with(binding) {
                progressBar.isVisible = it.isLoading

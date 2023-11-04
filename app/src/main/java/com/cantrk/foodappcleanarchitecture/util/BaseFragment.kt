@@ -1,4 +1,4 @@
-package com.cantrk.foodappcleanarchitecture
+package com.cantrk.foodappcleanarchitecture.util
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
-typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
+typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 open class BaseFragment<VB : ViewBinding>(
     private val inflate: Inflate<VB>,
 ) : Fragment() {

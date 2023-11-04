@@ -7,11 +7,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cantrk.foodappcleanarchitecture.BaseFragment
+import com.cantrk.foodappcleanarchitecture.util.BaseFragment
 import com.cantrk.foodappcleanarchitecture.adapter.HomeCategoryAdapter
 import com.cantrk.foodappcleanarchitecture.adapter.PopularMealAdapter
 import com.cantrk.foodappcleanarchitecture.adapter.RandomMealAdapter
-import com.cantrk.foodappcleanarchitecture.databinding.FragmentHomeBinding
+import com.cantrk.foodappcleanarchitecture.databinding.FragmentNavHomeBinding
 import com.cantrk.foodappcleanarchitecture.dataclass.Category
 import com.cantrk.foodappcleanarchitecture.dataclass.RandomMeal
 import com.cantrk.foodappcleanarchitecture.viewmodel.GetCategoriesViewModel
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NavHomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
+class NavHomeFragment : BaseFragment<FragmentNavHomeBinding>(FragmentNavHomeBinding::inflate) {
 
     private val viewModel : GetCategoriesViewModel by viewModels()
     private lateinit var mealAdapter: HomeCategoryAdapter

@@ -2,7 +2,7 @@ package com.cantrk.foodappcleanarchitecture.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cantrk.foodappcleanarchitecture.Resource
+import com.cantrk.foodappcleanarchitecture.util.Resource
 import com.cantrk.foodappcleanarchitecture.states.MealState
 import com.cantrk.foodappcleanarchitecture.usecase.GetMealsByCategoryItemListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,5 +41,9 @@ class CategoryListItemViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun setMealId(mealId:String){
+        MealDetailViewModel.MEAL_ID = mealId
     }
 }
