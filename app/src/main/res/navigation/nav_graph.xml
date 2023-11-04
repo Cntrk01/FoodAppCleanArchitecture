@@ -3,34 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/navHomeFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.cantrk.foodappcleanarchitecture.ui.HomeFragment"
+        android:id="@+id/navHomeFragment"
+        android:name="com.cantrk.foodappcleanarchitecture.ui.NavHomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_mealDetailFragment2"
             app:destination="@id/mealDetailFragment" />
+        <action
+            android:id="@+id/action_navHomeFragment_to_categoryListItemFragment"
+            app:destination="@id/categoryListItemFragment" />
     </fragment>
     <fragment
-        android:id="@+id/favoriteFragment"
-        android:name="com.cantrk.foodappcleanarchitecture.ui.FavoriteFragment"
+        android:id="@+id/navFavoriteFragment"
+        android:name="com.cantrk.foodappcleanarchitecture.ui.NavFavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite" />
     <fragment
-        android:id="@+id/categoryFragment"
-        android:name="com.cantrk.foodappcleanarchitecture.ui.CategoryFragment"
+        android:id="@+id/navCategoryFragment"
+        android:name="com.cantrk.foodappcleanarchitecture.ui.NavCategoryFragment"
         android:label="fragment_category"
-        tools:layout="@layout/fragment_category" />
+        tools:layout="@layout/fragment_category" >
+        <action
+            android:id="@+id/action_categoryFragment_to_categoryListItemFragment"
+            app:destination="@id/categoryListItemFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mealDetailFragment"
         android:name="com.cantrk.foodappcleanarchitecture.ui.MealDetailFragment"
         android:label="fragment_meal_detail"
         tools:layout="@layout/fragment_meal_detail" >
         <action
-            android:id="@+id/action_mealDetailFragment_to_homeFragment2"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_mealDetailFragment_to_homeFragment"
+            app:destination="@id/navHomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryListItemFragment"
+        android:name="com.cantrk.foodappcleanarchitecture.ui.GetClickedCategoryMealListFragment"
+        android:label="fragment_category_list"
+        tools:layout="@layout/fragment_category_list" >
+        <action
+            android:id="@+id/action_categoryListItemFragment_to_categoryFragment"
+            app:destination="@id/navCategoryFragment" />
     </fragment>
 </navigation>
