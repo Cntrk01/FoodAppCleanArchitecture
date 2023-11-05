@@ -12,8 +12,10 @@ import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.cantrk.foodappcleanarchitecture.util.BaseFragment
 import com.cantrk.foodappcleanarchitecture.databinding.FragmentMealDetailBinding
+import com.cantrk.foodappcleanarchitecture.dataclass.FoodSaveEntity
 import com.cantrk.foodappcleanarchitecture.dataclass.RandomMeal
 import com.cantrk.foodappcleanarchitecture.viewmodel.MealDetailViewModel
+import com.cantrk.foodappcleanarchitecture.viewmodel.MealGetFromDatabaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,41 +24,70 @@ import kotlinx.coroutines.launch
 class MealDetailFragment : BaseFragment<FragmentMealDetailBinding>(FragmentMealDetailBinding::inflate)  {
     private lateinit var webView: WebView
     private val viewModel : MealDetailViewModel by viewModels()
+    private val mealDatabaseViewModel : MealGetFromDatabaseViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         webView=binding.webView
         getDataFromViewModel()
     }
-
+    private var isSaved=false
+    private var foodSaveEntity = FoodSaveEntity()
     private fun getDataFromViewModel(){
-        viewModel.viewModelScope.launch {
-            viewModel.mealDetail.collectLatest {
-                binding.apply {
-                    if (it.isLoading){
-                        mealDataConstraint.visibility=View.GONE
-                        progressBar.isVisible=true
+        with(mealDatabaseViewModel){
+            getMealClickedItem(MealDetailViewModel.MEAL_ID.toInt())
+            viewModelScope.launch {
+                getMealClickedItem.collectLatest {
+                    if (it.isHave==true){
+                        binding.favoriteButton.isChecked=true
+                        isSaved=true
+                    }else{
+                        binding.favoriteButton.isChecked=false
+                        isSaved=false
                     }
-                    if (it.error != ""){
-                        mealDataConstraint.visibility=View.GONE
-                        progressBar.isVisible=false
-                        errorText.isVisible=true
-                        errorText.text=it.error
-                    }
-                    if (it.category?.isNotEmpty()==true){
-                        mealDataConstraint.isVisible=true
-                        progressBar.isVisible=false
-
-                        it.category?.let {
-                            it.forEach {its->
-                                setDataForXml(its)
-                            }
-                        }
-                    }
-
                 }
             }
         }
+
+        binding.favoriteButton.setOnClickListener {
+            isSaved =!isSaved
+            if (isSaved){
+                mealDatabaseViewModel.addMeal(foodSaveEntity)
+            }else{
+                mealDatabaseViewModel.deleteMeal(foodSaveEntity)
+            }
+            binding.favoriteButton.isChecked=isSaved
+        }
+
+        if (!isSaved){
+            viewModel.viewModelScope.launch {
+                viewModel.mealDetail.collectLatest {
+                    binding.apply {
+                        if (it.isLoading){
+                            mealDataConstraint.visibility=View.GONE
+                            progressBar.isVisible=true
+                        }
+                        if (it.error != ""){
+                            mealDataConstraint.visibility=View.GONE
+                            progressBar.isVisible=false
+                            errorText.isVisible=true
+                            errorText.text=it.error
+                        }
+                        if (it.category?.isNotEmpty()==true){
+                            mealDataConstraint.isVisible=true
+                            progressBar.isVisible=false
+                            it.category?.let {
+                                it.forEach {its->
+                                    setDataForXml(its)
+                                    foodSaveEntity=FoodSaveEntity(null,its.strMealThumb,its.strMeal,its.strCategory,its.strArea,its.strInstructions,its.strYoutube)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
     @SuppressLint("SetTextI18n")
     private fun setDataForXml(its:RandomMeal){
