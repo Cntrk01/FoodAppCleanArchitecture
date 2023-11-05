@@ -13,11 +13,11 @@ interface FoodDao {
     @Query("SELECT*FROM food_table")
     fun getAllFood() : FoodSaveEntity
 
-    @Query("SELECT count(*) FROM food_table WHERE food_table.id=:foodId")
-    suspend fun getMealClickedItem(foodId:Int) : Int
+    @Query("SELECT count(*) FROM food_table WHERE food_table.mealId=:foodId")
+    suspend fun getMealClickedItem(foodId:String) : Int
 
-    @Delete
-    suspend fun deleteMeal(food:FoodSaveEntity)
+    @Query("DELETE FROM food_table WHERE food_table.mealId=:foodId")
+    suspend fun deleteMeal(foodId:String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMeal(food: FoodSaveEntity)

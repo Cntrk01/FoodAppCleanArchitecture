@@ -26,12 +26,14 @@ class FoodDatabaseImpl @Inject constructor(private val foodDatabase: FoodDao) {
             }
         }
     }
-    suspend fun getMealClickedItem(clickFoodId:Int) : Flow<Resource<Int>>{
+    suspend fun getMealClickedItem(clickFoodId:String) : Flow<Resource<String>>{
         return flow {
             try {
                 emit(Resource.Loading())
                 val getMealItem=foodDatabase.getMealClickedItem(foodId = clickFoodId)
-                emit(Resource.Success(getMealItem))
+                if (getMealItem>0){
+                    emit(Resource.Success(getMealItem.toString()))
+                }
             }catch (e:Exception){
                 emit(Resource.Error(message = e.message ?: "Exception"))
             }catch (e: SQLiteDatabaseLockedException) {
@@ -63,11 +65,11 @@ class FoodDatabaseImpl @Inject constructor(private val foodDatabase: FoodDao) {
         }
     }
 
-    suspend fun deleteMeal(deleteFood:FoodSaveEntity) : Flow<Resource<Boolean>>{
+    suspend fun deleteMeal(deletedFoodId:String) : Flow<Resource<Boolean>>{
         return flow {
             try {
                 emit(Resource.Loading())
-                foodDatabase.deleteMeal(food = deleteFood)
+                foodDatabase.deleteMeal(foodId = deletedFoodId)
                 emit(Resource.Success(data = true))
             }catch (e:Exception){
                 emit(Resource.Error(message = e.message ?: "Exception", data = false))
