@@ -97,7 +97,7 @@
             app:layout_constraintStart_toEndOf="@+id/categoryLocationImage"
             app:layout_constraintTop_toTopOf="@+id/categoryLocationImage" />
 
-        <ImageView
+        <ToggleButton
             android:id="@+id/favoriteButton"
             android:layout_width="60dp"
             android:layout_height="60dp"

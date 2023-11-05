@@ -11,6 +11,39 @@ import java.lang.Exception
 import javax.inject.Inject
 
 class FoodDatabaseImpl @Inject constructor(private val foodDatabase: FoodDao) {
+    suspend fun addMeal(addFood: FoodSaveEntity): Flow<Resource<Boolean>> {
+        return flow {
+            try {
+                emit(Resource.Loading())
+                foodDatabase.addMeal(addFood)
+                emit(Resource.Success(data = true))
+            } catch (e: Exception) {
+                emit(Resource.Error(message = e.message ?: "Exception", data = false))
+            } catch (e: SQLiteDatabaseLockedException) {
+                emit(Resource.Error(message = e.message ?: "Locked Database", data = false))
+            } catch (e: SQLiteConstraintException) {
+                emit(Resource.Error(message = e.message ?: "Constraint Database", data = false))
+            }
+        }
+    }
+    suspend fun getMealClickedItem(clickFoodId:Int) : Flow<Resource<Int>>{
+        return flow {
+            try {
+                emit(Resource.Loading())
+                val getMealItem=foodDatabase.getMealClickedItem(foodId = clickFoodId)
+                emit(Resource.Success(getMealItem))
+            }catch (e:Exception){
+                emit(Resource.Error(message = e.message ?: "Exception"))
+            }catch (e: SQLiteDatabaseLockedException) {
+                emit(Resource.Error(message = e.message ?: "Locked Database"))
+            }catch (e: SQLiteConstraintException) {
+                emit(Resource.Error(message = e.message ?: "Constraint Database"))
+            }
+        }
+    }
+
+
+
 
     fun getAllFood() : Flow<Resource<FoodSaveEntity>> {
         return flow {
@@ -30,52 +63,22 @@ class FoodDatabaseImpl @Inject constructor(private val foodDatabase: FoodDao) {
         }
     }
 
-    suspend fun getMealClickedItem(clickFoodId:Int) : Flow<Resource<FoodSaveEntity>>{
+    suspend fun deleteMeal(deleteFood:FoodSaveEntity) : Flow<Resource<Boolean>>{
         return flow {
             try {
                 emit(Resource.Loading())
-                val getMealItem=foodDatabase.getMealClickedItem(foodId = clickFoodId)
-                emit(Resource.Success(getMealItem))
+                foodDatabase.deleteMeal(food = deleteFood)
+                emit(Resource.Success(data = true))
             }catch (e:Exception){
-                emit(Resource.Error(message = e.message ?: "Exception"))
+                emit(Resource.Error(message = e.message ?: "Exception", data = false))
             }catch (e: SQLiteDatabaseLockedException) {
-                emit(Resource.Error(message = e.message ?: "Locked Database"))
+                emit(Resource.Error(message = e.message ?: "Locked Database",data = false))
             }catch (e: SQLiteConstraintException) {
-                emit(Resource.Error(message = e.message ?: "Constraint Database"))
+                emit(Resource.Error(message = e.message ?: "Constraint Database",data = false))
             }
         }
     }
 
-    suspend fun deleteMeal(deleteFood:FoodSaveEntity) : Flow<Resource<Unit>>{
-        return flow {
-            try {
-                emit(Resource.Loading())
-                val deleteMealItem=foodDatabase.deleteMeal(food = deleteFood)
-                emit(Resource.Success(data = deleteMealItem))
-            }catch (e:Exception){
-                emit(Resource.Error(message = e.message ?: "Exception"))
-            }catch (e: SQLiteDatabaseLockedException) {
-                emit(Resource.Error(message = e.message ?: "Locked Database"))
-            }catch (e: SQLiteConstraintException) {
-                emit(Resource.Error(message = e.message ?: "Constraint Database"))
-            }
-        }
-    }
 
-    suspend fun addMeal(addFood: FoodSaveEntity) : Flow<Resource<Unit>>{
-        return flow {
-            try {
-                emit(Resource.Loading())
-                val addFoodItem=foodDatabase.addMeal(food = addFood)
-                emit(Resource.Success(data = addFoodItem))
-            }catch (e:Exception){
-                emit(Resource.Error(message = e.message ?: "Exception"))
-            }catch (e: SQLiteDatabaseLockedException) {
-                emit(Resource.Error(message = e.message ?: "Locked Database"))
-            }catch (e: SQLiteConstraintException) {
-                emit(Resource.Error(message = e.message ?: "Constraint Database"))
-            }
-        }
-    }
 
 }

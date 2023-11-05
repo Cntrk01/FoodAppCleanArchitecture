@@ -6,14 +6,15 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.cantrk.foodappcleanarchitecture.dataclass.FoodSaveEntity
+import com.cantrk.foodappcleanarchitecture.states.FoodSaveState
 
 @Dao
 interface FoodDao {
     @Query("SELECT*FROM food_table")
     fun getAllFood() : FoodSaveEntity
 
-    @Query("SELECT*FROM food_table WHERE food_table.id=:foodId")
-    suspend fun getMealClickedItem(foodId:Int) : FoodSaveEntity
+    @Query("SELECT count(*) FROM food_table WHERE food_table.id=:foodId")
+    suspend fun getMealClickedItem(foodId:Int) : Int
 
     @Delete
     suspend fun deleteMeal(food:FoodSaveEntity)
