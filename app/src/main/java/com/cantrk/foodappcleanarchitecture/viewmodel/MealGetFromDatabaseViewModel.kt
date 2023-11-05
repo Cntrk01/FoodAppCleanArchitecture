@@ -45,18 +45,18 @@ class MealGetFromDatabaseViewModel @Inject constructor(private val getMealFromRo
         }
     }
 
-    fun getMealClickedItem(foodId:Int) = viewModelScope.launch {
+    fun getMealClickedItem(foodId:String) = viewModelScope.launch {
         getMealFromRoomUseCase.getMealClickedItem(foodId).collectLatest {
             when(it){
                 is Resource.Success->{
                     _getMealClickedItem.value= FoodSaveState(isHave =true)
-                    Log.e("asdsada","isHave =true")
                 }
                 is Resource.Loading->{
                     FoodSaveState(isLoading = true)
                 }
                 is Resource.Error->{
                     FoodSaveState(error = it.message ?: "Error")
+
                 }
             }
         }
@@ -78,8 +78,8 @@ class MealGetFromDatabaseViewModel @Inject constructor(private val getMealFromRo
         }
     }
 
-    fun deleteMeal(food: FoodSaveEntity) = viewModelScope.launch {
-        getMealFromRoomUseCase.deleteMeal(food).collectLatest {
+    fun deleteMeal(foodId: String) = viewModelScope.launch {
+        getMealFromRoomUseCase.deleteMeal(foodId).collectLatest {
             when(it){
                 is Resource.Success->{
                     _deletedMeal.value= FoodSaveState(isDeleted =true)

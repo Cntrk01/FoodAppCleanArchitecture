@@ -13,4 +13,5 @@ data class FoodSaveEntity(
     val location:String?=null,
     val desc:String?=null,
     val youtubeUrl:String?=null,
+    val mealId : String ?=null
 )

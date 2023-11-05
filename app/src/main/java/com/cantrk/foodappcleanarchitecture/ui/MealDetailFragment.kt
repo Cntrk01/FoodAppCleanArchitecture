@@ -25,6 +25,7 @@ class MealDetailFragment : BaseFragment<FragmentMealDetailBinding>(FragmentMealD
     private lateinit var webView: WebView
     private val viewModel : MealDetailViewModel by viewModels()
     private val mealDatabaseViewModel : MealGetFromDatabaseViewModel by viewModels()
+    private var foodSaveEntity = FoodSaveEntity()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,29 +33,25 @@ class MealDetailFragment : BaseFragment<FragmentMealDetailBinding>(FragmentMealD
         getDataFromViewModel()
     }
     private var isSaved=false
-    private var foodSaveEntity = FoodSaveEntity()
+
     private fun getDataFromViewModel(){
         with(mealDatabaseViewModel){
-            getMealClickedItem(MealDetailViewModel.MEAL_ID.toInt())
+            getMealClickedItem(MealDetailViewModel.MEAL_ID)
+
             viewModelScope.launch {
                 getMealClickedItem.collectLatest {
-                    if (it.isHave==true){
-                        binding.favoriteButton.isChecked=true
-                        isSaved=true
-                    }else{
-                        binding.favoriteButton.isChecked=false
-                        isSaved=false
-                    }
+                    isSaved = it.isHave ?: false
+                    binding.favoriteButton.isChecked = isSaved
+
                 }
             }
         }
-
         binding.favoriteButton.setOnClickListener {
             isSaved =!isSaved
             if (isSaved){
                 mealDatabaseViewModel.addMeal(foodSaveEntity)
             }else{
-                mealDatabaseViewModel.deleteMeal(foodSaveEntity)
+                mealDatabaseViewModel.deleteMeal(foodSaveEntity.mealId!!)
             }
             binding.favoriteButton.isChecked=isSaved
         }
@@ -79,7 +76,10 @@ class MealDetailFragment : BaseFragment<FragmentMealDetailBinding>(FragmentMealD
                             it.category?.let {
                                 it.forEach {its->
                                     setDataForXml(its)
-                                    foodSaveEntity=FoodSaveEntity(null,its.strMealThumb,its.strMeal,its.strCategory,its.strArea,its.strInstructions,its.strYoutube)
+                                    foodSaveEntity=
+                                        FoodSaveEntity(null,its.strMealThumb,its.strMeal,
+                                            its.strCategory,its.strArea,its.strInstructions,
+                                            its.strYoutube,its.idMeal)
                                 }
                             }
                         }
@@ -87,8 +87,11 @@ class MealDetailFragment : BaseFragment<FragmentMealDetailBinding>(FragmentMealD
                 }
             }
         }
-
     }
+
+
+
+
     @SuppressLint("SetTextI18n")
     private fun setDataForXml(its:RandomMeal){
        binding.apply {

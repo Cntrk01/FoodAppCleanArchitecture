@@ -8,9 +8,9 @@ class GetMealFromRoomUseCase @Inject constructor(private val foodDatabaseImpl: F
 
     fun getAllMeal()  = foodDatabaseImpl.getAllFood()
 
-    suspend fun  getMealClickedItem(foodId:Int) = foodDatabaseImpl.getMealClickedItem(clickFoodId=foodId)
+    suspend fun  getMealClickedItem(foodId:String) = foodDatabaseImpl.getMealClickedItem(clickFoodId=foodId)
 
-    suspend fun deleteMeal(food: FoodSaveEntity) = foodDatabaseImpl.deleteMeal(deleteFood = food)
+    suspend fun deleteMeal(deletedFoodId: String) = foodDatabaseImpl.deleteMeal(deletedFoodId = deletedFoodId)
 
     suspend fun addMeal(food: FoodSaveEntity) = foodDatabaseImpl.addMeal(addFood= food)
 }
