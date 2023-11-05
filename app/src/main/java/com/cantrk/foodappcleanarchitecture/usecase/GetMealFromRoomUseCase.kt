@@ -13,4 +13,6 @@ class GetMealFromRoomUseCase @Inject constructor(private val foodDatabaseImpl: F
     suspend fun deleteMeal(deletedFoodId: String) = foodDatabaseImpl.deleteMeal(deletedFoodId = deletedFoodId)
 
     suspend fun addMeal(food: FoodSaveEntity) = foodDatabaseImpl.addMeal(addFood= food)
+
+    suspend fun getMealClickedItemData(foodId: String)=foodDatabaseImpl.getMealClickedItemData(foodId=foodId)
 }

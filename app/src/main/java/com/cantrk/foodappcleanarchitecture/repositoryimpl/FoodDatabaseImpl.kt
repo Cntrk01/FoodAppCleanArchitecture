@@ -44,7 +44,23 @@ class FoodDatabaseImpl @Inject constructor(private val foodDatabase: FoodDao) {
         }
     }
 
-
+    suspend fun getMealClickedItemData(foodId: String) : Flow<Resource<FoodSaveEntity>>{
+        return flow {
+            try {
+                emit(Resource.Loading())
+                val getMeal=foodDatabase.getMealClickedItemData(foodId)
+                if (!getMeal?.mealId.equals("")){
+                    emit(Resource.Success(getMeal!!))
+                }
+            }catch (e:Exception){
+                emit(Resource.Error(message = e.message ?: "Exception"))
+            }catch (e: SQLiteDatabaseLockedException) {
+                emit(Resource.Error(message = e.message ?: "Locked Database"))
+            }catch (e: SQLiteConstraintException) {
+                emit(Resource.Error(message = e.message ?: "Constraint Database"))
+            }
+        }
+    }
 
 
     fun getAllFood() : Flow<Resource<FoodSaveEntity>> {
