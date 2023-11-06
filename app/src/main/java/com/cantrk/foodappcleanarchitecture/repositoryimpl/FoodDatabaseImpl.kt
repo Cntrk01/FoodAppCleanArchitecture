@@ -61,14 +61,16 @@ class FoodDatabaseImpl @Inject constructor(private val foodDatabase: FoodDao) {
             }
         }
     }
-
-
-    fun getAllFood() : Flow<Resource<FoodSaveEntity>> {
+    fun getAllFood() : Flow<Resource<List<FoodSaveEntity>>> {
         return flow {
             try {
                 emit(Resource.Loading())
-                val getData=foodDatabase.getAllFood()
-                emit(Resource.Success(getData))
+                val foodData = foodDatabase.getAllFood()
+
+                foodData.collect{
+                    emit(Resource.Success(it))
+                }
+
             }catch (e:Exception){
                 emit(Resource.Error(message = e.message ?: "Exception"))
             }catch (e: SQLiteDatabaseLockedException) {

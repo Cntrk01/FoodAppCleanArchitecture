@@ -1,5 +1,6 @@
 package com.cantrk.foodappcleanarchitecture.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cantrk.foodappcleanarchitecture.dataclass.FoodSaveEntity
@@ -7,6 +8,7 @@ import com.cantrk.foodappcleanarchitecture.states.FoodSaveState
 import com.cantrk.foodappcleanarchitecture.usecase.GetMealFromRoomUseCase
 import com.cantrk.foodappcleanarchitecture.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -82,13 +84,15 @@ class MealGetFromDatabaseViewModel @Inject constructor(private val getMealFromRo
         getMealFromRoomUseCase.getAllMeal().collectLatest {
             when(it){
                 is Resource.Success->{
-                    _getAllMeal.value= FoodSaveState(data = it.data)
+                    _getAllMeal.value= FoodSaveState(getRoomDataList = it.data)
+                    Log.e("roomdata",it.data.toString())
                 }
                 is Resource.Loading->{
                     FoodSaveState(isLoading = true)
                 }
                 is Resource.Error->{
                     FoodSaveState(error = it.message ?: "Error")
+                    Log.e("errrrrrr",it.message.toString())
                 }
             }
         }

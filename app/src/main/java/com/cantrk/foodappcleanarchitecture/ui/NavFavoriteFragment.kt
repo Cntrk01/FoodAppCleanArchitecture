@@ -22,11 +22,11 @@ class NavFavoriteFragment : BaseFragment<FragmentNavFavoriteBinding>(FragmentNav
     }
     private fun getMealsDb(){
         with(mealDatabaseViewModel){
-            getAllMeal()
             viewModelScope.launch {
+                getAllMeal()
                 getAllMeal.collectLatest {
-                    if (it.data != null){
-                        Log.e("savedDAta",it.data.toString())
+                    if (it.getRoomDataList != null){
+                        Log.e("data123",it.data.toString())
                     }
                 }
             }

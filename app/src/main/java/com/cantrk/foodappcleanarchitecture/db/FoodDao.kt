@@ -6,10 +6,11 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.cantrk.foodappcleanarchitecture.dataclass.FoodSaveEntity
 
+
 @Dao
 interface FoodDao {
     @Query("SELECT*FROM food_table")
-    fun getAllFood() : FoodSaveEntity
+    fun getAllFood() : kotlinx.coroutines.flow.Flow<List<FoodSaveEntity>>
 
     @Query("SELECT count(*) FROM food_table WHERE food_table.mealId=:foodId")
     suspend fun getMealClickedItem(foodId:String) : Int

@@ -3,6 +3,7 @@ package com.cantrk.foodappcleanarchitecture.dataclass
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+
 @Entity(tableName = "food_table")
 data class FoodSaveEntity(
     @PrimaryKey(autoGenerate = true)
