@@ -1,4 +1,4 @@
-package com.cantrk.foodappcleanarchitecture.ui
+package com.cantrk.foodappcleanarchitecture.ui.navigation
 
 import android.os.Bundle
 import android.view.View
@@ -44,7 +44,7 @@ class NavHomeFragment : BaseFragment<FragmentNavHomeBinding>(FragmentNavHomeBind
 
         mealAdapter.clickCategoryItem = {
             viewModel.setCategoryListItem(it)
-            val action=NavHomeFragmentDirections.actionNavHomeFragmentToCategoryListItemFragment()
+            val action= NavHomeFragmentDirections.actionNavHomeFragmentToCategoryListItemFragment()
             findNavController().navigate(action)
         }
     }
@@ -61,7 +61,7 @@ class NavHomeFragment : BaseFragment<FragmentNavHomeBinding>(FragmentNavHomeBind
             override fun itemId(itemId: String) {
                 if (itemId.isNotEmpty()){
                     viewModel.setMealSavedItemData(itemId)
-                    val action=NavHomeFragmentDirections.actionHomeFragmentToMealDetailFragment2()
+                    val action= NavHomeFragmentDirections.actionHomeFragmentToMealDetailFragment2()
                     findNavController().navigate(action)
                 }
             }
@@ -80,7 +80,7 @@ class NavHomeFragment : BaseFragment<FragmentNavHomeBinding>(FragmentNavHomeBind
         popularMealAdapter.setOnClickPopulerMealItem = {
             if (!it.equals("")){
                 viewModel.setMealSavedItemData(it.idMeal)
-                val action=NavHomeFragmentDirections.actionHomeFragmentToMealDetailFragment2()
+                val action= NavHomeFragmentDirections.actionHomeFragmentToMealDetailFragment2()
                 findNavController().navigate(action)
             }
         }

@@ -24,8 +24,8 @@ class MealGetFromDatabaseViewModel @Inject constructor(private val getMealFromRo
     private var _getMealClickedItem = MutableStateFlow(FoodSaveState())
     val getMealClickedItem : StateFlow<FoodSaveState> get() = _getMealClickedItem
 
-    private var _getMealClickedItemDetail = MutableStateFlow(FoodSaveState())
-    val getMealClickedItemDetail : StateFlow<FoodSaveState> get() = _getMealClickedItemDetail
+//    private var _getMealClickedItemDetail = MutableStateFlow(FoodSaveState())
+//    val getMealClickedItemDetail : StateFlow<FoodSaveState> get() = _getMealClickedItemDetail
 
     private var _deletedMeal = MutableStateFlow(FoodSaveState())
 

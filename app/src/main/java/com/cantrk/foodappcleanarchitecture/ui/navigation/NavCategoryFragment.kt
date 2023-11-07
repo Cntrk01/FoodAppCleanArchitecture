@@ -1,4 +1,4 @@
-package com.cantrk.foodappcleanarchitecture.ui
+package com.cantrk.foodappcleanarchitecture.ui.navigation
 
 import android.os.Bundle
 import android.view.View
@@ -47,7 +47,8 @@ class NavCategoryFragment : BaseFragment<FragmentNavCategoryBinding>(FragmentNav
 
         mealAdapter.setClickItemListener = {
             viewModel.setCategoryListItem(it.strCategory)
-            val action=NavCategoryFragmentDirections.actionCategoryFragmentToCategoryListItemFragment()
+            val action=
+                NavCategoryFragmentDirections.actionCategoryFragmentToCategoryListItemFragment()
             findNavController().navigate(action)
         }
     }

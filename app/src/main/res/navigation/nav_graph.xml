@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navHomeFragment"
-        android:name="com.cantrk.foodappcleanarchitecture.ui.NavHomeFragment"
+        android:name="com.cantrk.foodappcleanarchitecture.ui.navigation.NavHomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_nav_home" >
         <action
@@ -19,12 +19,12 @@
     </fragment>
     <fragment
         android:id="@+id/navFavoriteFragment"
-        android:name="com.cantrk.foodappcleanarchitecture.ui.NavFavoriteFragment"
+        android:name="com.cantrk.foodappcleanarchitecture.ui.navigation.NavFavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_nav_favorite" />
     <fragment
         android:id="@+id/navCategoryFragment"
-        android:name="com.cantrk.foodappcleanarchitecture.ui.NavCategoryFragment"
+        android:name="com.cantrk.foodappcleanarchitecture.ui.navigation.NavCategoryFragment"
         android:label="fragment_category"
         tools:layout="@layout/fragment_nav_category" >
         <action

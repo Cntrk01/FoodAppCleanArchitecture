@@ -32,8 +32,9 @@ class FoodDatabaseImpl @Inject constructor(private val foodDatabase: FoodDao) {
             try {
                 emit(Resource.Loading())
                 val getMealItem=foodDatabase.getMealClickedItem(foodId = clickFoodId)
-                emit(Resource.Success(getMealItem))
-
+                if (clickFoodId==getMealItem.mealId){
+                    emit(Resource.Success(getMealItem))
+                }
             }catch (e:Exception){
                 emit(Resource.Error(message = e.message ?: "Exception"))
             }catch (e: SQLiteDatabaseLockedException) {

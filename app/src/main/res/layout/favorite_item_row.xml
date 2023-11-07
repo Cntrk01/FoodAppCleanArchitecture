@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:elevation="2dp"
+        android:elevation="5dp"
         app:cardCornerRadius="15dp"
+        android:layout_margin="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,7 +23,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/mealImage"
                 android:layout_width="130dp"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -34,17 +38,17 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/baseline_assignment_24"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/mealImage"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/mealName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:maxLines="1"
                 android:text="SDKDKASAKDKASDASd"
                 android:textColor="@color/black"
-                android:layout_marginStart="10dp"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView4"
                 app:layout_constraintStart_toEndOf="@+id/imageView4"
@@ -57,18 +61,18 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/baseline_category_24black"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/mealImage"
                 app:layout_constraintTop_toBottomOf="@+id/mealName" />
 
             <TextView
                 android:id="@+id/mealCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:maxLines="1"
                 android:text="Meal Category"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:layout_marginStart="10dp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toTopOf="@+id/imageView2" />
@@ -80,7 +84,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/baseline_location_on_24"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/mealImage"
                 app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
             <TextView

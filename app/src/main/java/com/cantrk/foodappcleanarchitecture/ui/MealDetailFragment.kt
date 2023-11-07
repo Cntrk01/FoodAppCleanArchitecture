@@ -46,10 +46,10 @@ class MealDetailFragment :
                 getMealClickedItem.collectLatest {
                     isSavedData = it.isHave!!
                     binding.favoriteButton.isChecked = isSavedData
-
+                    println(isSavedData)
                     if (isSavedData) {
                         mealDatabaseViewModel.viewModelScope.launch {
-                            mealDatabaseViewModel.getMealClickedItemDetail.collectLatest {
+                            mealDatabaseViewModel.getMealClickedItem.collectLatest {
                                 binding.apply {
                                     if (it.isLoading == true) {
                                         mealDataConstraint.visibility = View.GONE
@@ -67,6 +67,7 @@ class MealDetailFragment :
                                         setDbDataForXml(it.data)
                                         Log.e("ROOM", "Roomdan geldi")
                                     }
+                                    favoriteButton.isChecked = it.isHave==true
                                 }
                             }
                         }
@@ -103,6 +104,7 @@ class MealDetailFragment :
                                             }
                                         }
                                     }
+
                                 }
                             }
                         }
