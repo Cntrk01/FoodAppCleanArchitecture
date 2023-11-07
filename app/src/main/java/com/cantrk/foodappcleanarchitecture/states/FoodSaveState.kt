@@ -9,5 +9,5 @@ data class FoodSaveState(
     val isDeleted : Boolean ?=false,
     val isAdded : Boolean ?=false,
     val isHave : Boolean ?=false,
-    val getRoomDataList : List<FoodSaveEntity> ?= null,
+    val getRoomList : List<FoodSaveEntity> ?=null
     )

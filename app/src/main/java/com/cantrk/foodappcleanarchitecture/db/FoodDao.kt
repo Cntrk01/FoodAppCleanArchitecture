@@ -12,14 +12,14 @@ interface FoodDao {
     @Query("SELECT*FROM food_table")
     fun getAllFood() : kotlinx.coroutines.flow.Flow<List<FoodSaveEntity>>
 
-    @Query("SELECT count(*) FROM food_table WHERE food_table.mealId=:foodId")
-    suspend fun getMealClickedItem(foodId:String) : Int
+    @Query("SELECT * FROM food_table WHERE food_table.mealId=:foodId")
+    suspend fun getMealClickedItem(foodId:String) : FoodSaveEntity
 
     @Query("DELETE FROM food_table WHERE food_table.mealId=:foodId")
     suspend fun deleteMeal(foodId:String)
 
-    @Query("SELECT * FROM food_table WHERE food_table.mealId=:foodId")
-    suspend fun getMealClickedItemData(foodId: String): FoodSaveEntity?
+//    @Query("SELECT * FROM food_table WHERE food_table.mealId=:foodId")
+//    suspend fun getMealClickedItemData(foodId: String): FoodSaveEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMeal(food: FoodSaveEntity)

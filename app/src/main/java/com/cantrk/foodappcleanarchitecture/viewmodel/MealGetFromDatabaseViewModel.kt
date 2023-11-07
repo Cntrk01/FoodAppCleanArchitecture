@@ -51,24 +51,7 @@ class MealGetFromDatabaseViewModel @Inject constructor(private val getMealFromRo
         getMealFromRoomUseCase.getMealClickedItem(foodId).collectLatest {
             when(it){
                 is Resource.Success->{
-                    _getMealClickedItem.value= FoodSaveState(isHave =true)
-                    getMealClickedItemData(foodId)
-                }
-                is Resource.Loading->{
-                    FoodSaveState(isLoading = true)
-                }
-                is Resource.Error->{
-                    FoodSaveState(isHave = false,error = it.message ?: "Error")
-                }
-            }
-        }
-    }
-
-    private fun getMealClickedItemData(foodId:String)=viewModelScope.launch {
-        getMealFromRoomUseCase.getMealClickedItemData(foodId = foodId).collectLatest {
-            when(it){
-                is Resource.Success->{
-                    _getMealClickedItemDetail.value= FoodSaveState(isHave = true,data = it.data)
+                    _getMealClickedItem.value= FoodSaveState(isHave =true, data = it.data)
                 }
                 is Resource.Loading->{
                     FoodSaveState(isLoading = true)
@@ -80,12 +63,28 @@ class MealGetFromDatabaseViewModel @Inject constructor(private val getMealFromRo
         }
     }
 
+//    private fun getMealClickedItemData(foodId:String)=viewModelScope.launch {
+//        getMealFromRoomUseCase.getMealClickedItemData(foodId = foodId).collectLatest {
+//            when(it){
+//                is Resource.Success->{
+//                    _getMealClickedItemDetail.value= FoodSaveState(isHave = true,data = it.data)
+//                }
+//                is Resource.Loading->{
+//                    FoodSaveState(isLoading = true)
+//                }
+//                is Resource.Error->{
+//                    FoodSaveState(error = it.message ?: "Error")
+//                }
+//            }
+//        }
+//    }
+
     fun getAllMeal()=viewModelScope.launch{
         getMealFromRoomUseCase.getAllMeal().collectLatest {
             when(it){
                 is Resource.Success->{
-                    _getAllMeal.value= FoodSaveState(getRoomDataList = it.data)
-                    Log.e("roomdata",it.data.toString())
+                    _getAllMeal.value= FoodSaveState(getRoomList = it.data)
+                    //Log.e("roomdata",it.data.toString())
                 }
                 is Resource.Loading->{
                     FoodSaveState(isLoading = true)

@@ -25,8 +25,8 @@ class NavFavoriteFragment : BaseFragment<FragmentNavFavoriteBinding>(FragmentNav
             viewModelScope.launch {
                 getAllMeal()
                 getAllMeal.collectLatest {
-                    if (it.getRoomDataList != null){
-                        Log.e("data123",it.data.toString())
+                    if (it.getRoomList != null){
+                        Log.e("data123",it.getRoomList.toString())
                     }
                 }
             }

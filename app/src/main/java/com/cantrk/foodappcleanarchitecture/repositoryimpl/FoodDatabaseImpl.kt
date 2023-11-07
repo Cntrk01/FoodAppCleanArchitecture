@@ -6,6 +6,7 @@ import com.cantrk.foodappcleanarchitecture.dataclass.FoodSaveEntity
 import com.cantrk.foodappcleanarchitecture.db.FoodDao
 import com.cantrk.foodappcleanarchitecture.util.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 import java.lang.Exception
 import javax.inject.Inject
@@ -26,14 +27,13 @@ class FoodDatabaseImpl @Inject constructor(private val foodDatabase: FoodDao) {
             }
         }
     }
-    suspend fun getMealClickedItem(clickFoodId:String) : Flow<Resource<String>>{
+    suspend fun getMealClickedItem(clickFoodId:String) : Flow<Resource<FoodSaveEntity>>{
         return flow {
             try {
                 emit(Resource.Loading())
                 val getMealItem=foodDatabase.getMealClickedItem(foodId = clickFoodId)
-                if (getMealItem>0){
-                    emit(Resource.Success(getMealItem.toString()))
-                }
+                emit(Resource.Success(getMealItem))
+
             }catch (e:Exception){
                 emit(Resource.Error(message = e.message ?: "Exception"))
             }catch (e: SQLiteDatabaseLockedException) {
@@ -44,29 +44,28 @@ class FoodDatabaseImpl @Inject constructor(private val foodDatabase: FoodDao) {
         }
     }
 
-    suspend fun getMealClickedItemData(foodId: String) : Flow<Resource<FoodSaveEntity>>{
-        return flow {
-            try {
-                emit(Resource.Loading())
-                val getMeal=foodDatabase.getMealClickedItemData(foodId)
-                if (!getMeal?.mealId.equals("")){
-                    emit(Resource.Success(getMeal!!))
-                }
-            }catch (e:Exception){
-                emit(Resource.Error(message = e.message ?: "Exception"))
-            }catch (e: SQLiteDatabaseLockedException) {
-                emit(Resource.Error(message = e.message ?: "Locked Database"))
-            }catch (e: SQLiteConstraintException) {
-                emit(Resource.Error(message = e.message ?: "Constraint Database"))
-            }
-        }
-    }
+//    suspend fun getMealClickedItemData(foodId: String) : Flow<Resource<FoodSaveEntity>>{
+//        return flow {
+//            try {
+//                emit(Resource.Loading())
+//                val getMeal=foodDatabase.getMealClickedItemData(foodId)
+//                if (!getMeal?.mealId.equals("")){
+//                    emit(Resource.Success(getMeal!!))
+//                }
+//            }catch (e:Exception){
+//                emit(Resource.Error(message = e.message ?: "Exception"))
+//            }catch (e: SQLiteDatabaseLockedException) {
+//                emit(Resource.Error(message = e.message ?: "Locked Database"))
+//            }catch (e: SQLiteConstraintException) {
+//                emit(Resource.Error(message = e.message ?: "Constraint Database"))
+//            }
+//        }
+//    }
     fun getAllFood() : Flow<Resource<List<FoodSaveEntity>>> {
         return flow {
             try {
                 emit(Resource.Loading())
                 val foodData = foodDatabase.getAllFood()
-
                 foodData.collect{
                     emit(Resource.Success(it))
                 }

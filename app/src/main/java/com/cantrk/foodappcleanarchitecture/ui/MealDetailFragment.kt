@@ -87,8 +87,8 @@ class MealDetailFragment :
                                     if (it.category?.isNotEmpty() == true) {
                                         mealDataConstraint.isVisible = true
                                         progressBar.isVisible = false
-                                        it.category?.let {
-                                            it.forEach { its ->
+                                        it.category?.let {categoryIt->
+                                            categoryIt.map { its ->
                                                 setDataForXml(its)
                                                 foodSaveEntity = FoodSaveEntity(
                                                     null,
@@ -100,7 +100,6 @@ class MealDetailFragment :
                                                     its.strYoutube,
                                                     its.idMeal
                                                 )
-                                                Log.e("API", "apiden geldi")
                                             }
                                         }
                                     }
@@ -110,8 +109,6 @@ class MealDetailFragment :
                     }
                 }
             }
-            //isSavedData değeri true olmasına rağmen burada false dönüyor
-            Log.e("isSAVEDDATA", isSavedData.toString())
         }
 
     }
