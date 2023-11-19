@@ -1,6 +1,5 @@
 package com.cantrk.foodappcleanarchitecture.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cantrk.foodappcleanarchitecture.util.Resource

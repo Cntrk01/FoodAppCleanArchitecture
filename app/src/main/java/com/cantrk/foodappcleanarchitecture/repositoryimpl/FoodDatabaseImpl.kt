@@ -6,7 +6,6 @@ import com.cantrk.foodappcleanarchitecture.dataclass.FoodSaveEntity
 import com.cantrk.foodappcleanarchitecture.db.FoodDao
 import com.cantrk.foodappcleanarchitecture.util.Resource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 import java.lang.Exception
 import javax.inject.Inject
@@ -70,14 +69,11 @@ class FoodDatabaseImpl @Inject constructor(private val foodDatabase: FoodDao) {
                 foodData.collect{
                     emit(Resource.Success(it))
                 }
-
             }catch (e:Exception){
                 emit(Resource.Error(message = e.message ?: "Exception"))
             }catch (e: SQLiteDatabaseLockedException) {
-                // SQLite kilitlenme hatası işleme
                 emit(Resource.Error(message = e.message ?: "Locked Database"))
             }catch (e: SQLiteConstraintException) {
-                // SQLite kısıtlama hatası işleme
                 emit(Resource.Error(message = e.message ?: "Constraint Database"))
             }
         }
@@ -98,7 +94,4 @@ class FoodDatabaseImpl @Inject constructor(private val foodDatabase: FoodDao) {
             }
         }
     }
-
-
-
 }

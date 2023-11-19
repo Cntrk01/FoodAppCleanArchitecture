@@ -21,7 +21,11 @@
         android:id="@+id/navFavoriteFragment"
         android:name="com.cantrk.foodappcleanarchitecture.ui.navigation.NavFavoriteFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_nav_favorite" />
+        tools:layout="@layout/fragment_nav_favorite" >
+        <action
+            android:id="@+id/action_navFavoriteFragment_to_mealDetailFragment"
+            app:destination="@id/mealDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navCategoryFragment"
         android:name="com.cantrk.foodappcleanarchitecture.ui.navigation.NavCategoryFragment"
