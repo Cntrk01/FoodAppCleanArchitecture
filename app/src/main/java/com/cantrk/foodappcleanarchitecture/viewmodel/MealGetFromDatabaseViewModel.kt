@@ -1,6 +1,5 @@
 package com.cantrk.foodappcleanarchitecture.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cantrk.foodappcleanarchitecture.dataclass.FoodSaveEntity
@@ -8,7 +7,6 @@ import com.cantrk.foodappcleanarchitecture.states.FoodSaveState
 import com.cantrk.foodappcleanarchitecture.usecase.GetMealFromRoomUseCase
 import com.cantrk.foodappcleanarchitecture.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -63,6 +61,7 @@ class MealGetFromDatabaseViewModel @Inject constructor(private val getMealFromRo
         }
     }
 
+    //bu fonksyion da Int değer döndürdüğüm için sadece true false mantıgında çalışıyordu verileri almnak için üstteki fonksiyonu yazdım
 //    private fun getMealClickedItemData(foodId:String)=viewModelScope.launch {
 //        getMealFromRoomUseCase.getMealClickedItemData(foodId = foodId).collectLatest {
 //            when(it){
@@ -84,14 +83,12 @@ class MealGetFromDatabaseViewModel @Inject constructor(private val getMealFromRo
             when(it){
                 is Resource.Success->{
                     _getAllMeal.value= FoodSaveState(getRoomList = it.data)
-                    //Log.e("roomdata",it.data.toString())
                 }
                 is Resource.Loading->{
                     FoodSaveState(isLoading = true)
                 }
                 is Resource.Error->{
                     FoodSaveState(error = it.message ?: "Error")
-                    Log.e("errrrrrr",it.message.toString())
                 }
             }
         }
@@ -113,5 +110,7 @@ class MealGetFromDatabaseViewModel @Inject constructor(private val getMealFromRo
         }
     }
 
-
+    fun setDetailId(detailId:String){
+        MealDetailViewModel.MEAL_ID=detailId
+    }
 }

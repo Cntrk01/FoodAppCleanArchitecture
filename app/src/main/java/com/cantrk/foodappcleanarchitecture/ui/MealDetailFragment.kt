@@ -2,7 +2,6 @@ package com.cantrk.foodappcleanarchitecture.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -14,6 +13,7 @@ import com.cantrk.foodappcleanarchitecture.util.BaseFragment
 import com.cantrk.foodappcleanarchitecture.databinding.FragmentMealDetailBinding
 import com.cantrk.foodappcleanarchitecture.dataclass.FoodSaveEntity
 import com.cantrk.foodappcleanarchitecture.dataclass.RandomMeal
+import com.cantrk.foodappcleanarchitecture.states.FoodSaveState
 import com.cantrk.foodappcleanarchitecture.viewmodel.MealDetailViewModel
 import com.cantrk.foodappcleanarchitecture.viewmodel.MealGetFromDatabaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,10 +35,10 @@ class MealDetailFragment :
         getDataFromViewModel()
         checkFavoriteButton()
     }
+
     private fun getDataFromViewModel() {
         with(mealDatabaseViewModel) {
             getMealClickedItem(MealDetailViewModel.MEAL_ID)
-
             //buradaki problem şuydu isSaved data true olmasına ragmen if blogu calısmıyor else çalışıyordu.Ben bu değeri scope içerisinde güncelliyorum
             //sanırım oradan dışarıdaki değer güncellenmiyor . Sanırım scope içinde oldugu için değer birtek orada kalıyor.Bundan dolayı if else blogunu scope içine
             //aldım artık roomda veri varsa if blogundan roomdan geliyor yoksa apiden geliyor.
@@ -46,73 +46,77 @@ class MealDetailFragment :
                 getMealClickedItem.collectLatest {
                     isSavedData = it.isHave!!
                     binding.favoriteButton.isChecked = isSavedData
-                    println(isSavedData)
                     if (isSavedData) {
-                        mealDatabaseViewModel.viewModelScope.launch {
-                            mealDatabaseViewModel.getMealClickedItem.collectLatest {
-                                binding.apply {
-                                    if (it.isLoading == true) {
-                                        mealDataConstraint.visibility = View.GONE
-                                        progressBar.isVisible = true
-                                    }
-                                    if (it.error != "") {
-                                        mealDataConstraint.visibility = View.GONE
-                                        progressBar.isVisible = false
-                                        errorText.isVisible = true
-                                        errorText.text = it.error
-                                    }
-                                    if (it.data != null) {
-                                        mealDataConstraint.isVisible = true
-                                        progressBar.isVisible = false
-                                        setDbDataForXml(it.data)
-                                        Log.e("ROOM", "Roomdan geldi")
-                                    }
-                                    favoriteButton.isChecked = it.isHave==true
-                                }
-                            }
-                        }
+                        handleDataFromDatabase(it)
                     } else {
-                        viewModel.viewModelScope.launch {
-                            viewModel.mealDetail.collectLatest {
-                                binding.apply {
-                                    if (it.isLoading) {
-                                        mealDataConstraint.visibility = View.GONE
-                                        progressBar.isVisible = true
-                                    }
-                                    if (it.error != "") {
-                                        mealDataConstraint.visibility = View.GONE
-                                        progressBar.isVisible = false
-                                        errorText.isVisible = true
-                                        errorText.text = it.error
-                                    }
-                                    if (it.category?.isNotEmpty() == true) {
-                                        mealDataConstraint.isVisible = true
-                                        progressBar.isVisible = false
-                                        it.category?.let {categoryIt->
-                                            categoryIt.map { its ->
-                                                setDataForXml(its)
-                                                foodSaveEntity = FoodSaveEntity(
-                                                    null,
-                                                    its.strMealThumb,
-                                                    its.strMeal,
-                                                    its.strCategory,
-                                                    its.strArea,
-                                                    its.strInstructions,
-                                                    its.strYoutube,
-                                                    its.idMeal
-                                                )
-                                            }
-                                        }
-                                    }
-
-                                }
-                            }
+                        handleDataFromApi()
+                    }
+                }
+            }
+        }
+    }
+    private fun handleDataFromApi() {
+        with(viewModel){
+            viewModelScope.launch {
+                mealDetail.collectLatest { apiItem ->
+                    binding.apply {
+                        if (apiItem.isLoading) {
+                            showLoadingState()
+                        }
+                        if (apiItem.error != "") {
+                            showErrorState(apiItem.error)
+                        }
+                        if (!apiItem.category.isNullOrEmpty()) {
+                            showDataFromApi(apiItem.category!!.first())
                         }
                     }
                 }
             }
         }
+    }
+    private fun handleDataFromDatabase(databaseItem: FoodSaveState) {
+        binding.apply {
+            if (databaseItem.isLoading == true) {
+                showLoadingState()
+            }
+            if (databaseItem.error != "") {
+                databaseItem.error?.let { showErrorState(it) }
+            }
+            if (databaseItem.data != null) {
+                showDataFromDatabase(databaseItem.data)
+            }
+            favoriteButton.isChecked = databaseItem.isHave == true
+        }
+    }
 
+    private fun showLoadingState() {
+        binding.mealDataConstraint.visibility = View.GONE
+        binding.progressBar.isVisible = true
+        binding.errorText.isVisible = false
+    }
+
+    private fun showErrorState(error: String) {
+        binding.mealDataConstraint.visibility = View.GONE
+        binding.progressBar.isVisible = false
+        binding.errorText.isVisible = true
+        binding.errorText.text = error
+    }
+
+    private fun showDataFromDatabase(data: FoodSaveEntity) {
+        binding.apply {
+            mealDataConstraint.isVisible = true
+            progressBar.isVisible = false
+            setDbDataForXml(data)
+        }
+    }
+
+    private fun showDataFromApi(apiData: RandomMeal) {
+        binding.apply {
+            mealDataConstraint.isVisible = true
+            progressBar.isVisible = false
+            setDataForXml(apiData)
+            foodSaveEntity = FoodSaveEntity(null, apiData.strMealThumb, apiData.strMeal, apiData.strCategory, apiData.strArea, apiData.strInstructions, apiData.strYoutube, apiData.idMeal)
+        }
     }
 
     private fun setDbDataForXml(data: FoodSaveEntity) {
@@ -139,7 +143,6 @@ class MealDetailFragment :
             locationName.text = "Location : ${its.strArea}"
             mealName.text = its.strMeal
             mealDescription.text = its.strInstructions
-
             youtubeIcon.setOnClickListener {
                 openYoutube(its.strYoutube)
             }
@@ -147,12 +150,11 @@ class MealDetailFragment :
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private fun openYoutube(yt: String) {
-        println(yt)
+    private fun openYoutube(mealYt: String) {
         val webSettings = webView.settings
         webSettings.javaScriptEnabled = true
         webView.webViewClient = WebViewClient()
-        webView.loadUrl(yt)
+        webView.loadUrl(mealYt)
         webView.isVisible = true
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cantrk.foodappcleanarchitecture.adapter.FavoriteListAdapter
 import com.cantrk.foodappcleanarchitecture.util.BaseFragment
@@ -22,6 +23,7 @@ class NavFavoriteFragment : BaseFragment<FragmentNavFavoriteBinding>(FragmentNav
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
         getMealsDb()
+        clickItem()
     }
     private fun getMealsDb(){
         with(mealDatabaseViewModel){
@@ -35,12 +37,18 @@ class NavFavoriteFragment : BaseFragment<FragmentNavFavoriteBinding>(FragmentNav
             }
         }
     }
-
     private fun initAdapter(){
         favoriteAdapter= FavoriteListAdapter()
         binding.apply {
             recyclerView.adapter=favoriteAdapter
             recyclerView.layoutManager=LinearLayoutManager(requireContext())
+        }
+    }
+    private fun clickItem(){
+        favoriteAdapter.clickItem = {
+            it.mealId?.let { it1 -> mealDatabaseViewModel.setDetailId(it1) }
+            val action=NavFavoriteFragmentDirections.actionNavFavoriteFragmentToMealDetailFragment()
+            findNavController().navigate(action)
         }
     }
 }

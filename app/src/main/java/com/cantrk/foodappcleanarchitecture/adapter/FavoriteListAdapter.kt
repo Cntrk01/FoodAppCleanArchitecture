@@ -11,6 +11,7 @@ import com.cantrk.foodappcleanarchitecture.dataclass.FoodSaveEntity
 class FavoriteListAdapter : RecyclerView.Adapter<FavoriteListAdapter.ViewHolder>() {
 
     private var favoriteList= emptyList<FoodSaveEntity>()
+    var clickItem : ((FoodSaveEntity)->Unit) ?=null
 
     @SuppressLint("NotifyDataSetChanged")
     fun setFavoriteList(list:List<FoodSaveEntity>){
@@ -32,6 +33,10 @@ class FavoriteListAdapter : RecyclerView.Adapter<FavoriteListAdapter.ViewHolder>
             mealName.text=itemPosition.title
             mealCategory.text=itemPosition.category
             mealLocation.text=itemPosition.location
+        }
+
+        holder.itemView.setOnClickListener {
+            clickItem?.invoke(itemPosition)
         }
     }
 
