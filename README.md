@@ -35,63 +35,37 @@ Argümanları kullanmadan verileri lokal databaseden dinamik bir şekilde detay 
 
 
 
-![Ekran görüntüsü 2023-11-19 142608](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/39daa2db-ab30-4968-a20e-934a03313570)
+![Ekran görüntüsü 2023-11-19 142622](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/1f6ad690-6bfa-423f-a377-bdb67bea4763)
 
 
 
+![Ekran görüntüsü 2023-11-19 142613](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/db1aad27-591a-4c63-9035-a6bdd0897d8b)
 
 
 
-![Ekran görüntüsü 2023-11-19 142603](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/91112cab-c3a9-4f2b-9055-46e24bee73f9)
+![Ekran görüntüsü 2023-11-19 142608](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/1752db91-c4bf-49ac-994b-e32176a0dce5)
 
 
 
-
-
-![Ekran görüntüsü 2023-11-19 142557](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/0116b049-49ad-4157-a5ae-364bd06fd4e3)
-
+![Ekran görüntüsü 2023-11-19 142603](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/38402a8b-6e3b-4853-9cbb-f3edffe10d1d)
 
 
 
-
-
-![Ekran görüntüsü 2023-11-19 142551](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/1f902872-011f-424d-b236-89cfc46f7d36)
-
+![Ekran görüntüsü 2023-11-19 142557](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/0164bcc6-e429-464d-bb8c-cfed6b1805f2)
 
 
 
-
-
-![Ekran görüntüsü 2023-11-19 142544](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/3a0ae0b0-c388-456f-89bd-533c5ac3da5e)
-
+![Ekran görüntüsü 2023-11-19 142551](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/918149d8-595e-4b60-abc7-75fa4f540b6a)
 
 
 
-
-
-![Ekran görüntüsü 2023-11-19 142537](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/8485705a-6ad1-494e-bf82-4e4ecb5eda14)
-
+![Ekran görüntüsü 2023-11-19 142544](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/1a831f70-397e-4d1a-bf97-ddb580eddc7d)
 
 
 
-
-
-![Ekran görüntüsü 2023-11-19 142526](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/6dee0417-08e6-4bfa-9e53-88a7e16b328e)
-
+![Ekran görüntüsü 2023-11-19 142537](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/28c209c8-c6e9-4f9a-8de5-7f549a247f65)
 
 
 
+![Ekran görüntüsü 2023-11-19 142526](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/89b09cd9-99b1-4f96-a3f9-fd27e8f21cd0)
 
-
-
-
-![Ekran görüntüsü 2023-11-19 142622](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/d1f5b97b-9980-4e14-9048-a6b259c4bdb4)
-
-
-
-
-
-
-
-
-![Ekran görüntüsü 2023-11-19 142613](https://github.com/Cntrk01/FoodAppCleanArchitecture/assets/98031686/40b02480-ef17-468a-aacf-fedb4727533c)
