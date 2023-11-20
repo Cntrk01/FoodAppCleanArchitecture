@@ -2,7 +2,7 @@ package com.cantrk.foodappcleanarchitecture.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cantrk.foodappcleanarchitecture.util.Resource
+import com.cantrk.foodappcleanarchitecture.util.Response
 import com.cantrk.foodappcleanarchitecture.states.RandomMealState
 import com.cantrk.foodappcleanarchitecture.usecase.GetMealByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,15 +34,15 @@ class MealDetailViewModel @Inject constructor(private val mealByIdUseCase: GetMe
     private fun getMealDetail(mealId:String) =viewModelScope.launch {
         mealByIdUseCase.getMealById(mealId).collectLatest {
             when(it){
-                is Resource.Success->{
+                is Response.Success->{
                     it.data?.let {response->
                         _mealDetail.value= RandomMealState(category = response.meals)
                     }
                 }
-                is Resource.Loading->{
+                is Response.Loading->{
                     RandomMealState(isLoading = true)
                 }
-                is Resource.Error->{
+                is Response.Error->{
                     RandomMealState(error = it.message ?: "Error")
                 }
             }

@@ -2,7 +2,7 @@ package com.cantrk.foodappcleanarchitecture.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cantrk.foodappcleanarchitecture.util.Resource
+import com.cantrk.foodappcleanarchitecture.util.Response
 import com.cantrk.foodappcleanarchitecture.states.MealState
 import com.cantrk.foodappcleanarchitecture.usecase.GetMealsByCategoryItemListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,15 +28,15 @@ class CategoryListItemViewModel @Inject constructor(
     private fun getCategoryListMeal(categoryNames:String) = viewModelScope.launch{
         getMealsByCategoryItemListUseCase.getMealCategoryItem(categoryNames).collectLatest {
             when(it){
-                is Resource.Success->{
+                is Response.Success->{
                     it.data?.let {response->
                         _listMealData.value= MealState(category = response.meals)
                     }
                 }
-                is Resource.Loading->{
+                is Response.Loading->{
                     MealState(isLoading = true)
                 }
-                is Resource.Error->{
+                is Response.Error->{
                     MealState(error = it.message ?: "Error")
                 }
             }
