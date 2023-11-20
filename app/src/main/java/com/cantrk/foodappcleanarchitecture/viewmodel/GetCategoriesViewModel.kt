@@ -2,7 +2,7 @@ package com.cantrk.foodappcleanarchitecture.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cantrk.foodappcleanarchitecture.util.Resource
+import com.cantrk.foodappcleanarchitecture.util.Response
 import com.cantrk.foodappcleanarchitecture.states.CategoriesState
 import com.cantrk.foodappcleanarchitecture.states.RandomMealState
 import com.cantrk.foodappcleanarchitecture.usecase.HomePageUseCase
@@ -47,15 +47,15 @@ class GetCategoriesViewModel @Inject constructor(private val useCase: HomePageUs
     private fun getCategories() = viewModelScope.launch(Dispatchers.IO) {
         useCase.getCategories().collectLatest { resource ->
             when(resource){
-                is Resource.Success->{
+                is Response.Success->{
                     resource.data?.let {response->
                         _categoryResponse.value= CategoriesState(category = response.categories)
                     }
                 }
-                is Resource.Loading->{
+                is Response.Loading->{
                     CategoriesState(isLoading = true)
                 }
-                is Resource.Error->{
+                is Response.Error->{
                     CategoriesState(error = resource.message ?: "Error")
                 }
             }
@@ -65,15 +65,15 @@ class GetCategoriesViewModel @Inject constructor(private val useCase: HomePageUs
     private fun getRandomMeal() = viewModelScope.launch {
         useCase.getRandomMeal().collectLatest { resource ->
             when(resource){
-                is Resource.Success->{
+                is Response.Success->{
                     resource.data?.let {response->
                         _randomMealResponse.value= RandomMealState(category = response.meals)
                     }
                 }
-                is Resource.Loading->{
+                is Response.Loading->{
                     RandomMealState(isLoading = true)
                 }
-                is Resource.Error->{
+                is Response.Error->{
                     RandomMealState(error = resource.message ?: "Error")
                 }
             }
@@ -83,15 +83,15 @@ class GetCategoriesViewModel @Inject constructor(private val useCase: HomePageUs
     private fun getMealByName(name:String)=viewModelScope.launch {
         useCase.getMealByName(name).collectLatest {
             when(it){
-                is Resource.Success->{
+                is Response.Success->{
                     it.data?.let {response->
                         _populerItemResponse.value= RandomMealState(category = response.meals)
                     }
                 }
-                is Resource.Loading->{
+                is Response.Loading->{
                     RandomMealState(isLoading = true)
                 }
-                is Resource.Error->{
+                is Response.Error->{
                     RandomMealState(error = it.message ?: "Error")
                 }
             }

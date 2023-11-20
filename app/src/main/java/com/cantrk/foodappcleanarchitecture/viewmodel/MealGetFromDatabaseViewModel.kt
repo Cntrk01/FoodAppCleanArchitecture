@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.cantrk.foodappcleanarchitecture.dataclass.FoodSaveEntity
 import com.cantrk.foodappcleanarchitecture.states.FoodSaveState
 import com.cantrk.foodappcleanarchitecture.usecase.GetMealFromRoomUseCase
-import com.cantrk.foodappcleanarchitecture.util.Resource
+import com.cantrk.foodappcleanarchitecture.util.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,13 +32,13 @@ class MealGetFromDatabaseViewModel @Inject constructor(private val getMealFromRo
     fun addMeal(food: FoodSaveEntity) = viewModelScope.launch {
         getMealFromRoomUseCase.addMeal(food).collectLatest {
             when(it){
-                is Resource.Success->{
+                is Response.Success->{
                     _addMeal.value= FoodSaveState(isAdded = true)
                 }
-                is Resource.Loading->{
+                is Response.Loading->{
                     FoodSaveState(isLoading = true)
                 }
-                is Resource.Error->{
+                is Response.Error->{
                     FoodSaveState(error = it.message ?: "Error")
                 }
             }
@@ -48,13 +48,13 @@ class MealGetFromDatabaseViewModel @Inject constructor(private val getMealFromRo
     fun getMealClickedItem(foodId:String) = viewModelScope.launch {
         getMealFromRoomUseCase.getMealClickedItem(foodId).collectLatest {
             when(it){
-                is Resource.Success->{
+                is Response.Success->{
                     _getMealClickedItem.value= FoodSaveState(isHave =true, data = it.data)
                 }
-                is Resource.Loading->{
+                is Response.Loading->{
                     FoodSaveState(isLoading = true)
                 }
-                is Resource.Error->{
+                is Response.Error->{
                     FoodSaveState(error = it.message ?: "Error")
                 }
             }
@@ -65,13 +65,13 @@ class MealGetFromDatabaseViewModel @Inject constructor(private val getMealFromRo
 //    private fun getMealClickedItemData(foodId:String)=viewModelScope.launch {
 //        getMealFromRoomUseCase.getMealClickedItemData(foodId = foodId).collectLatest {
 //            when(it){
-//                is Resource.Success->{
+//                is Response.Success->{
 //                    _getMealClickedItemDetail.value= FoodSaveState(isHave = true,data = it.data)
 //                }
-//                is Resource.Loading->{
+//                is Response.Loading->{
 //                    FoodSaveState(isLoading = true)
 //                }
-//                is Resource.Error->{
+//                is Response.Error->{
 //                    FoodSaveState(error = it.message ?: "Error")
 //                }
 //            }
@@ -81,13 +81,13 @@ class MealGetFromDatabaseViewModel @Inject constructor(private val getMealFromRo
     fun getAllMeal()=viewModelScope.launch{
         getMealFromRoomUseCase.getAllMeal().collectLatest {
             when(it){
-                is Resource.Success->{
+                is Response.Success->{
                     _getAllMeal.value= FoodSaveState(getRoomList = it.data)
                 }
-                is Resource.Loading->{
+                is Response.Loading->{
                     FoodSaveState(isLoading = true)
                 }
-                is Resource.Error->{
+                is Response.Error->{
                     FoodSaveState(error = it.message ?: "Error")
                 }
             }
@@ -97,13 +97,13 @@ class MealGetFromDatabaseViewModel @Inject constructor(private val getMealFromRo
     fun deleteMeal(foodId: String) = viewModelScope.launch {
         getMealFromRoomUseCase.deleteMeal(foodId).collectLatest {
             when(it){
-                is Resource.Success->{
+                is Response.Success->{
                     _deletedMeal.value= FoodSaveState(isDeleted =true)
                 }
-                is Resource.Loading->{
+                is Response.Loading->{
                     FoodSaveState(isLoading = true)
                 }
-                is Resource.Error->{
+                is Response.Error->{
                     FoodSaveState(error = it.message ?: "Error")
                 }
             }
