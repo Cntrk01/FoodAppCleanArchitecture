@@ -28,22 +28,6 @@ class FoodRepositoryImpl @Inject constructor(private val api: FoodApi){
             }
     }
 
-    suspend fun getMealsByCategory(category: String): Flow<Response<MealsResponse>> {
-        return flow {
-            try {
-                emit(Response.Loading())
-                val getMealsByCategory=api.getMealsByCategory(category)
-                emit(Response.Success(getMealsByCategory))
-            }catch (e:Exception){
-                emit(Response.Error(e.message.toString()))
-            }catch (e:HttpException){
-                emit(Response.Error(message = e.localizedMessage ?: "Error"))
-            }catch (e:IOException){
-                emit(Response.Error("No Internet Connection"))
-            }
-        }
-    }
-
     suspend fun getRandomMeal(): Flow<Response<RandomResponse>> {
         return flow {
             try {

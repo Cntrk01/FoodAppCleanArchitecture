@@ -10,9 +10,6 @@ interface FoodApi {
     @GET("categories.php")
     suspend fun getCategories(): CategoryResponse
 
-    @GET("categories.php")
-    suspend fun getMealsByCategory(@Query("i") category:String): MealsResponse
-
     @GET ("random.php")
     suspend fun getRandomMeal():RandomResponse
 
